@@ -1,23 +1,13 @@
-@import './assets/stylesheets/reset.scss';
-@import './assets/stylesheets/vars.scss';
+@import "./assets/stylesheets/reset.scss";
+@import "./assets/stylesheets/vars.scss";
+
+
 body{
-    font-family: -apple-system, "Noto Sans", "Helvetica Neue", Helvetica, "Nimbus Sans L", Arial, "Liberation Sans", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Source Han Sans SC", "Source Han Sans CN", "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti", SimHei, "WenQuanYi Zen Hei Sharp", sans-serif; ;
-    font-size: 16px;
-    color: #333;
+  font-family: -apple-system, "Noto Sans", "Helvetica Neue", Helvetica, "Nimbus Sans L", Arial, "Liberation Sans", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Source Han Sans SC", "Source Han Sans CN", "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti", SimHei, "WenQuanYi Zen Hei Sharp", sans-serif;
+  font-size: 16px;
+  color: #333;
 }
 
-.slide-fade-enter-active,
-.slide-fade-leave-active{
-    transition: all 3s ease-out;
-    position:absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-.slide-fade-enter-from{
-    transform: translateX(100vw);
-}
-.slide-fade-leave-to{
-    transform: translateX(-100vw);
+::webkit-scrollbar {
+  visibility: hidden;
 }
