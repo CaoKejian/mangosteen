@@ -4,10 +4,18 @@ type Point = {
   x: number;
   y: number;
 }
-
-export const useSwipe = (element: Ref<HTMLElement | null>) => {
-  const start = ref<Point | null>(null)
-  const end = ref<Point | null>(null)
+interface Options{
+  beforeStart?:(e:TouchEvent) => void
+  afterStart?:(e:TouchEvent) => void
+  beforeMove?:(e:TouchEvent) => void
+  afterMove?:(e:TouchEvent) => void
+  beforeEnd?:(e:TouchEvent) => void
+  afterEnd?:(e:TouchEvent) => void
+}
+// options 传进去用于判断是否让不让背景跟着动的事件
+export const useSwipe = (element: Ref<HTMLElement | undefined>,options:Options) => {
+  const start = ref<Point>()
+  const end = ref<Point>()
   const swiping = ref(false)
   const distance = computed(() => {
     if (!start.value || !end.value) { return null }
@@ -26,15 +34,22 @@ export const useSwipe = (element: Ref<HTMLElement | null>) => {
     }
   })
   const onStart = (e: TouchEvent) => {
+//左滑的时候不让背景滑动 判断让他触发不
+    options?.beforeStart?.(e)
     swiping.value = true
     end.value = start.value = { x: e.touches[0].screenX, y: e.touches[0].screenY }
+    options?.afterStart?.(e)
   }
   const onMove = (e: TouchEvent) => {
+    options?.afterMove?.(e)
     if (!start.value) { return }
     end.value = { x: e.touches[0].screenX, y: e.touches[0].screenY, }
+    options?.beforeMove?.(e)
   }
   const onEnd = (e: TouchEvent) => {
+    options?.afterEnd?.(e)
     swiping.value = false
+    options?.beforeEnd?.(e)
   }
 
   onMounted(() => {
