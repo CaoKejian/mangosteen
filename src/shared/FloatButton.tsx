@@ -1,11 +1,12 @@
 import { defineComponent} from 'vue';
 import { Icon } from './icon';
+import s from './FloatButton.module.scss';
 export const FloatButton= defineComponent({
   setup:(props,context)=>{
     return ()=>(
-        <svg>
-            <Icon name="add"></Icon>
-        </svg>
+        <div class={s.floatButton}>
+            <Icon name="add" class={s.icon}></Icon>
+        </div>
     )
   }
 })
