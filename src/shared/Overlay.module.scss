@@ -20,6 +20,16 @@
     background: var(--overlay-user-bg);
     color: var(--overlay-user-text);
   }
+  h2{
+    letter-spacing: 1px;
+  }
+  p{
+    padding-top: 5px;
+    letter-spacing: 1px;
+  }
+  span{
+    letter-spacing: 1px;
+  }
   .action {
     display: flex;
     justify-content: start;
