@@ -1,6 +1,7 @@
-import { defineComponent, PropType} from 'vue';
+import { defineComponent, PropType, ref} from 'vue';
 import { MainLayout } from '../../layouts/MainLayout';
 import { Icon } from '../../shared/icon';
+import { Tab, Tabs } from '../../shared/Tabs';
 import s from './ItemCreate.module.scss';
 export const ItemCreate= defineComponent({
   props:{
@@ -9,6 +10,7 @@ export const ItemCreate= defineComponent({
     }
   },
   setup:(props,context)=>{
+    const refkind = ref('支出')
     return ()=>(
       // {{ 是一个{ + 一个object 中间不能有空格 不然会不渲染页面
       <MainLayout>{
@@ -16,7 +18,14 @@ export const ItemCreate= defineComponent({
           title:()=> '记一笔',
           icon:()=> <Icon name='left' class={s.navIcon}></Icon>,
           default:()=> <>
-            <div>main</div>
+            <Tabs selected={refkind.value} onUpdateSelected = {(name) => refkind.value = name}>
+              <Tab name='支出'>
+                icon 
+              </Tab>
+              <Tab name='收入'>
+                icon
+              </Tab>
+            </Tabs>
           </>
         }
       }
