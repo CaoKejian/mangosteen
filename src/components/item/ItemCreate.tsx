@@ -18,7 +18,8 @@ export const ItemCreate= defineComponent({
           title:()=> '记一笔',
           icon:()=> <Icon name='left' class={s.navIcon}></Icon>,
           default:()=> <>
-            <Tabs selected={refkind.value} onUpdateSelected = {(name) => refkind.value = name}>
+            {/* <Tabs selected={refkind.value} onUpdateSelected = {(name) => refkind.value = name}> */}
+            <Tabs v-model:selected={refkind.value}>
               <Tab name='支出'>
                 icon 
               </Tab>
