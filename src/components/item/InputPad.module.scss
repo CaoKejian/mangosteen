@@ -1,7 +1,4 @@
-.wrapper{
 
-    
-}
 .dateAndAmount{
     display: flex;
     justify-content: space-between;
@@ -26,6 +23,7 @@
     width: 24px;
     height: 24px;
     margin-right: 8px;
+    fill: var(--navbar-bg-end);
 }
 .buttons{
     display: flex;
