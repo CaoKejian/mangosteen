@@ -27,13 +27,13 @@ export const InputPad= defineComponent({
         {text:'提交',onClick:()=>{}},
     ]
     return ()=><>
-        <div class={s.wrapper}>
-            <span class={s.notes}>
+        <div class={s.dateAndAmount}>
+            <span class={s.date}>
                 <Icon name="data" class={s.data}></Icon>
                 <span>2022-11-30</span>
             </span>
             <span class={s.amount}>
-                number
+                199.12
             </span>
         </div>
         <div class={s.buttons}>
