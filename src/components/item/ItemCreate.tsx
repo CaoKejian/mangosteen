@@ -1,40 +1,35 @@
-import { defineComponent, PropType, ref} from 'vue';
+import { defineComponent, PropType, ref } from 'vue';
 import { MainLayout } from '../../layouts/MainLayout';
-import { Icon } from '../../shared/icon';
-import { Tab, Tabs } from '../../shared/Tabs';
+import { Icon } from '../../shared/Icon';
+import { Tabs, Tab } from '../../shared/Tabs';
 import { InputPad } from './InputPad';
 import s from './ItemCreate.module.scss';
-export const ItemCreate= defineComponent({
-  props:{
-    name:{
-      type:String as PropType<string>
+export const ItemCreate = defineComponent({
+  props: {
+    name: {
+      type: String as PropType<string>
     }
   },
-  setup:(props,context)=>{
-    const refkind = ref('支出')
-    return ()=>(
-      // {{ 是一个{ + 一个object 中间不能有空格 不然会不渲染页面
-      <MainLayout>{
-        {
-          title:()=> '记一笔',
-          icon:()=> <Icon name='left' class={s.navIcon}></Icon>,
-          default:()=> <>
-            {/* <Tabs selected={refkind.value} onUpdateSelected = {(name) => refkind.value = name}> */}
-            <Tabs v-model:selected={refkind.value}>
-              <Tab name='支出'>
-                icon 1
-              </Tab>
-              <Tab name='收入'>
-                icon2
-              </Tab>
-            </Tabs>
-            <div class={s.inputPad_wrapper}>
-              <InputPad/>
-            </div>
-          </>
-        }
-      }
-      </MainLayout>
+  setup: (props, context) => {
+    const refKind = ref('支出')
+    return () => (
+      <MainLayout>{{
+        title: () => '记一笔',
+        icon: () => <Icon name="left" class={s.navIcon} />,
+        default: () => <>
+          <Tabs v-model:selected={refKind.value}>
+            <Tab name="支出">
+              icon 列表
+            </Tab>
+            <Tab name="收入">
+              icon 列表2
+            </Tab>
+          </Tabs>
+          <div class={s.inputPad_wrapper}>
+            <InputPad />
+          </div>
+        </>
+      }}</MainLayout>
     )
   }
 })

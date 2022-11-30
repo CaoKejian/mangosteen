@@ -1,4 +1,3 @@
-
 import { defineComponent, PropType } from 'vue';
 import { RouterLink } from 'vue-router';
 import { Icon } from './Icon';
