@@ -4,7 +4,7 @@ import { Button } from '../../shared/Button';
 import { EmojiSelect } from '../../shared/EmojiSelect';
 import { Icon } from '../../shared/Icon';
 import { Rules, validate } from '../../shared/validate';
-import s from './TagCreate.module.scss';
+import s from './Tag.module.scss';
 export const TagCreate = defineComponent({
   props: {
     name: {
