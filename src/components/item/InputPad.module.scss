@@ -1,6 +1,7 @@
 .wrapper {
 }
 .dateAndAmount {
+  background: var(--overlay-bg);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -18,9 +19,6 @@
       height: 24px;
       margin-right: 8px;
       fill: var(--amount-text);
-    }
-    span{
-      letter-spacing: 1px;
     }
   }
   > .amount {
