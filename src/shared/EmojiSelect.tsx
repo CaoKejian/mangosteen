@@ -43,9 +43,6 @@ export const EmojiSelect = defineComponent({
             onClick={() => onClickEmoji(item)}>{item}</li>)
       )
     })
-    console.log(emojis);
-    
-    
     return () => (
       <div class={s.emojiList}>
         <nav>
