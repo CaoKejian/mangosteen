@@ -12,7 +12,7 @@ export const TagForm = defineComponent({
   },
   setup: (props, context) => {
     const formData = reactive({
-      name: '', 
+      name: '',
       sign: '',
     })
     const errors = reactive<{ [k in keyof typeof formData]?: string[] }>({})

@@ -64,11 +64,11 @@ export const InputPad = defineComponent({
           <Icon name="date" class={s.icon} />
           <span>
             <span onClick={showDatePicker}>{new Time(refDate.value).format()}</span>
-            {/* <Popup position='bottom' v-model:show={refDatePickerVisible.value}>
-              <DatetimePicker value={refDate.value} type="date" title="选择年月日"
+            <Popup position='bottom' v-model:show={refDatePickerVisible.value}>
+              {/* <DatetimePicker value={refDate.value} type="date" title="选择年月日"
                 onConfirm={setDate} onCancel={hideDatePicker}
-              />
-            </Popup> */}
+              /> */}
+            </Popup>
           </span>
         </span>
         <span class={s.amount}>{refAmount.value}</span>
