@@ -31,7 +31,9 @@
     border-radius: var(--input-radius);
     padding: 0 16px;
     min-height: 30px;
-    width: 120px;
+    width: 100px;
+    outline: none;
+    box-shadow: 0 0 2px var(--input-border-color);
   }
   &.validationCodeInput {
     flex-grow: 0;
