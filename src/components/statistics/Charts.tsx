@@ -3,6 +3,8 @@ import { FormItem } from '../../shared/Form';
 import s from './Charts.module.scss';
 
 import * as echarts from 'echarts';
+import { LineChart } from './LineChart';
+import { PieChart } from './PieChart';
 
 
 export const Charts = defineComponent({
@@ -17,8 +19,6 @@ export const Charts = defineComponent({
     }
   },
   setup: (props, context) => {
-    const refDiv = ref<HTMLDivElement>()
-    const refDiv2 = ref<HTMLDivElement>()
     const category = ref('expenses')
     const data3 = reactive([
       { tag: { id: 1, name: '房租', sign: 'x' }, amount: 3000 },
@@ -32,72 +32,15 @@ export const Charts = defineComponent({
         percent: Math.round(item.amount / total * 100) + '%'
       }))
     })
-    onMounted(() => {
-      if (refDiv.value === undefined) return
-      // 基于准备好的dom，初始化echarts实例
-      var myChart = echarts.init(refDiv.value);
-      // 绘制图表
-      const option = {
-        grid:[
-          {left:0,top:0,right:0,bottom:20}
-        ],
-        xAxis: {
-          type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-        },
-        yAxis: {
-          type: 'value'
-        },
-        series: [
-          {
-            data: [150, 230, 224, 218, 135, 147, 260],
-            type: 'line'
-          }
-        ]
-      };
-      myChart.setOption(option);
-    })
-    onMounted(() => {
-      if (refDiv2.value === undefined) return
-      // 基于准备好的dom，初始化echarts实例
-      var myChart = echarts.init(refDiv2.value);
-      // 绘制图表
-      const option = {
-        grid:[
-          {left:0,top:0,right:0,bottom:20}
-        ],
-        series: [
-          {
-            name: 'Access From',
-            type: 'pie',
-            radius: '50%',
-            data: [
-              { value: 1048, name: 'Search Engine' },
-              { value: 735, name: 'Direct' },
-              { value: 580, name: 'Email' },
-              { value: 484, name: 'Union Ads' },
-              { value: 300, name: 'Video Ads' }
-            ],
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
-            }
-          }
-        ]
-      };
-      myChart.setOption(option);
-    })
+    
     return () => (
       <div class={s.wrapper}>
         <FormItem label='类型' type='select' class={s.form} options={[
           { value: "expenses", text: '支出' },
           { value: "income", text: '收入' },
         ]} v-model={category.value} />
-        <div ref={refDiv} class={s.demo}></div>
-        <div ref={refDiv2} class={s.demo2}></div>
+        <LineChart/>
+        <PieChart/>
         <div class={s.demo3}>
           {betterData3.value.map(({ tag, amount, percent }) => {
               return (
