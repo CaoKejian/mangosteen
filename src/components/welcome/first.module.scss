@@ -16,6 +16,10 @@
    >.pig{
     margin-top: -60px;
    }
+   h1{
+    margin-top: 10px;
+    color: red;
+   }
   }
   >.actions{
     display: flex;
@@ -31,4 +35,7 @@
       visibility: hidden;
     }
   }
+}
+h2{
+  margin-top: 10px;
 }

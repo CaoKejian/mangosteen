@@ -3,17 +3,12 @@ import s from './first.module.scss'
 import pig from '../../assets/icon/pig.svg'
 import { RouterLink } from 'vue-router'
 export const First = defineComponent({
-  props: {
-    name: {
-      type: String as PropType<string>
-    }
-  },
   setup: (props, context) => {
     return () => (
       <div class={s.wrapper}>
         <div class={s.card}>
           <img class={s.pig} src={pig} />
-          <h1>会挣钱 <br /> 还要会省钱</h1>
+          <h2>会挣钱 <br /> 还要会省钱</h2>
         </div>
         <div class={s.actions}>
           <div class={s.fake}>跳过</div>
