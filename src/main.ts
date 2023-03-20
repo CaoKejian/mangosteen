@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import { App } from './App'
+import './assets/css/reset.css'
 
 import { createRouter } from 'vue-router'
 import { routes } from './config/routes'
