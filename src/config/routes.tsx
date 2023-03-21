@@ -1,5 +1,3 @@
-import { Bar } from '../views/Bar'
-import { Foo } from '../views/Foo'
 import { RouteRecordRaw } from 'vue-router'
 import { First } from '../components/welcome/first'
 import { Second } from '../components/welcome/second'
@@ -8,10 +6,10 @@ import { Forth } from '../components/welcome/forth'
 import { Welcome } from '../views/Welcome'
 
 export const routes: Readonly<RouteRecordRaw[]> = [
-  { path: '/', component: Foo },
-  { path: '/about', component: Bar },
+  { path: '/', redirect: '/welcome' },
   {
     path: '/welcome', component: Welcome, children: [
+      { path: '', redirect: '/welcome/1' },
       { path: '1', component: First },
       { path: '2', component: Second },
       { path: '3', component: Third },
