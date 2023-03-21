@@ -1,5 +1,5 @@
 import s from './welcome.module.scss';
-import chart from '../../assets/icon/chart.svg';
+import chart from '../../assets/icons/chart.svg';
 import { FunctionalComponent } from 'vue';
 
 export const Third: FunctionalComponent = () => {
