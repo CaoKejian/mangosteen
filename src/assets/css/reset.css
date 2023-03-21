@@ -50,3 +50,6 @@ table {
 a{
 	text-decoration: none;
 }
+::webkit-scrollbar {
+  visibility: hidden;
+}
