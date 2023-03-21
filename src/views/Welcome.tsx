@@ -4,7 +4,7 @@ import s from './Welcome.module.scss';
 import { useSwipe } from '../hooks/useSwiper';
 export const Welcome = defineComponent({
   setup: (props, context) => {
-    const main = ref<HTMLElement | null>(null)
+    const main = ref<HTMLElement>()
     const { direction } = useSwipe(main)
     return () => (<div class={s.wrapper}>
       <header>

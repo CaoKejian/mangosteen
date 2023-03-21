@@ -14,7 +14,7 @@ interface Options {
   afterEnd?: (e: TouchEvent) => void
 }
 
-export const useSwipe = (element: Ref<HTMLElement | null>, options?: Options) => {
+export const useSwipe = (element: Ref<HTMLElement | undefined>, options?: Options) => {
   const start = ref<Point>()
   const end = ref<Point>()
   const swiping = ref(false)
@@ -35,6 +35,7 @@ export const useSwipe = (element: Ref<HTMLElement | null>, options?: Options) =>
     }
   })
   const onStart = (e: TouchEvent) => {
+    e.preventDefault()
     options?.beforeStart?.(e)
     swiping.value = true
     end.value = start.value = { x: e.touches[0].screenX, y: e.touches[0].screenY }
