@@ -1,4 +1,4 @@
-import { defineComponent, PropType } from 'vue';
+import { defineComponent } from 'vue';
 import s from './first.module.scss'
 import clock from '../../assets/icon/clock.svg'
 import { WelcomeLayout } from './WelcomeLayout'

@@ -1,4 +1,4 @@
-import { defineComponent, PropType } from 'vue';
+import { defineComponent } from 'vue';
 import s from './first.module.scss';
 import cloud from '../../assets/icon/cloud.svg'
 import { RouterLink } from 'vue-router'
