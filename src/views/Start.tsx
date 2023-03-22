@@ -1,4 +1,5 @@
 import { defineComponent, PropType, ref } from 'vue';
+import { RouterLink } from 'vue-router';
 import { Button } from '../shared/Button';
 import { FloatButton } from '../shared/FloatButton';
 import { NavBar } from '../shared/NavBar';
@@ -25,10 +26,14 @@ export const Start = defineComponent({
           </svg>
         </div>
         <div class={s.button_wrapper}>
-          <Button class={s.button}>开始记账</Button>
+          <RouterLink to='/items/create'>
+            <Button class={s.button}>开始记账</Button>
+          </RouterLink>
         </div>
         <div class={s.float_button}>
-          <FloatButton></FloatButton>
+          <RouterLink to='/items/create'>
+            <FloatButton></FloatButton>
+          </RouterLink>
         </div>
         {
           overlayVisible.value &&

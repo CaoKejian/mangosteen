@@ -1,4 +1,6 @@
 import { RouteRecordRaw } from "vue-router";
+import { itemCreate } from "../components/Item/itemCreate";
+import { itemList } from "../components/Item/itemList";
 import { First } from "../components/welcome/first";
 import { FirstActions } from "../components/welcome/firstActions";
 import { Forth } from "../components/welcome/forth";
@@ -7,6 +9,7 @@ import { Second } from "../components/welcome/second";
 import { SecondActions } from "../components/welcome/secondActions";
 import { Third } from "../components/welcome/third";
 import { ThirdActions } from "../components/welcome/thirdActions";
+import { ItemPage } from "../views/ItemPage";
 import { Start } from "../views/Start";
 import { Welcome } from "../views/Welcome";
 
@@ -21,5 +24,13 @@ export const routes: Readonly<RouteRecordRaw[]> = [
       { path: '4', name: 'welcome4', components: { main: Forth, footer: ForthActions }, },
     ]
   },
-  { path: '/start', component: Start }
+  { path: '/start', component: Start },
+  {
+    path: '/items', component: ItemPage,
+    children: [
+      { path: "", component: itemList },
+      { path: "create", component: itemCreate },
+    ]
+  },
+
 ]
