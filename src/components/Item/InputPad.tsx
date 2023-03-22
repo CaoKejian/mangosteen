@@ -26,15 +26,15 @@ export const InputPad = defineComponent({
       { text: '提交', onClick: () => { } },
     ]
     return () => <>
-      <div>
-        <span class={s.nodes}>
-          <svg>
+      <div class={s.dateAndAmount}>
+        <span class={s.date}>
+          <svg class={s.svg}>
             <use xlinkHref='#date'></use>
           </svg>
           <span>2023-3-22</span>
         </span>
         <span class={s.amount}>
-          数字
+          199.12
         </span>
       </div>
       <div class={s.buttons}>
