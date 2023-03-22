@@ -1,6 +1,7 @@
 import { defineComponent, onUpdated, PropType, ref } from 'vue';
 import { MainLayout } from '../../layouts/MainLayout';
 import { Tab, Tabs } from '../../shared/Tabs';
+import { InputPad } from './InputPad';
 import s from './itemCreate.module.scss';
 export const itemCreate = defineComponent({
   props: {
@@ -18,7 +19,7 @@ export const itemCreate = defineComponent({
         {
           title: () => '记一笔',
           icon: () => <svg class={s.svg}><use xlinkHref='#return'></use></svg>,
-          default: () =>
+          default: () => <>
             <Tabs v-model:selected={refkind.value}>
               <Tab name='支出'>
                 1
@@ -27,6 +28,10 @@ export const itemCreate = defineComponent({
                 2
               </Tab>
             </Tabs>
+            <div class={s.inputPad_wrapper}>
+              <InputPad />
+            </div>
+          </>
         }
       }</MainLayout>
     )

@@ -1,6 +1,13 @@
 .main{
+  width: 100%;
   .svg{
     width: 24px;
     height:24px;
+  }
+  .inputPad_wrapper{
+    width: 100%;
+      position: fixed;
+      bottom: 0;
+      left: 0;
   }
 }
