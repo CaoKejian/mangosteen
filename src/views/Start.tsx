@@ -1,5 +1,6 @@
 import { defineComponent, PropType } from 'vue';
 import { Button } from '../shared/Button';
+import { FloatButton } from '../shared/FloatButton';
 import s from './Start.module.scss';
 export const Start = defineComponent({
   props: {
@@ -15,6 +16,9 @@ export const Start = defineComponent({
       <div>
         <div class={s.button_wrapper}>
           <Button class={s.button} onClick={onClick}>测试</Button>
+        </div>
+        <div class={s.float_button}>
+          <FloatButton></FloatButton>
         </div>
       </div>
     )
