@@ -4,7 +4,7 @@
   align-items: center;
   padding: 16px;
   font-family: monospace;
-  border-top: 1px solid var(--button-border-color);
+  border-top: 1px solid var(--number-button-border-color);
   > .date {
     font-size: 12px;
     display: flex;
@@ -44,7 +44,7 @@
   .button{
     font-size: 16px;
     border: none;
-    background: var(--button-bg);
+    background: var(--number-button-bg);
     &:nth-child(1) {
       grid-area: n1;
     }
@@ -83,8 +83,8 @@
     }
     &:nth-child(13) {
       grid-area: s;
-      background: var(--button-bg-important);
-      color: var(--button-text-important);
+      background: var(--number-button-bg-important);
+      color: var(--number-button-text-important);
     }
   }
 }
