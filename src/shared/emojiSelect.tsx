@@ -28,6 +28,8 @@ export const EmojiSelect = defineComponent({
         'food-marine', 'food-sweet'
       ]],
       ['运动', ['sport', 'game']],
+      ['生活',['clothing','sound','musicc','musical-instrument']],
+      ['科技',['phone','computer']]
     ]
     const onClickTab = (index: number) => {
       refSelected.value = index
