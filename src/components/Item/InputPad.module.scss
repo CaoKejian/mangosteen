@@ -11,10 +11,14 @@
     align-items: center;
     justify-content: start;
     color: var(--date-text);
+    .datespan{
+      font-size: 14px;
+    }
     .svg{
       width: 24px;
       height: 24px;
       margin-right: 8px;
+      margin-bottom: 4px;
       fill: var(--amount-text);
     }
   }
@@ -40,4 +44,7 @@
       border-right: none;
     }
   }
+}
+ .DatetimePicker{
+  font-size: 12px;
 }
