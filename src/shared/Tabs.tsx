@@ -7,7 +7,6 @@ export const Tabs = defineComponent({
     },
   },
   setup: (props, context) => {
-
     return () => {
       const array = context.slots.default?.()
       if (!array) return () => null
