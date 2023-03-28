@@ -52,7 +52,7 @@ export const itemList = defineComponent({
                 >
                 </ItemSummary>
               </Tab>
-              <Tab name='自定义'>
+              <Tab name='自定义时间'>
                 <ItemSummary
                   startDate={customtime.start}
                   endDate={customtime.end}
