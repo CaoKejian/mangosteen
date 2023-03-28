@@ -4,8 +4,11 @@ import { Tab, Tabs } from '../../shared/Tabs';
 import { ItemSummary } from './ItemSummary';
 import s from './itemList.module.scss';
 import { Time } from '../../shared/time';
+import { Overlay } from 'vant';
+
 export const itemList = defineComponent({
   setup: (props, context) => {
+    const refOverlayVisible = ref(false)
     const refSelected = ref('本月')
     const time = new Time()
     const customtime = reactive({
@@ -60,6 +63,9 @@ export const itemList = defineComponent({
                 </ItemSummary>
               </Tab>
             </Tabs>
+            <overlay show={refOverlayVisible.value} class={s.overlay} >
+              
+              </overlay>
           </>
         }
       }</MainLayout>
