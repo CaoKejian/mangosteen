@@ -1,14 +1,14 @@
-import { defineComponent, PropType, reactive, ref } from 'vue';
+import { customRef, defineComponent, PropType, reactive, ref, watchEffect } from 'vue';
 import { MainLayout } from '../../layouts/MainLayout';
 import { Tab, Tabs } from '../../shared/Tabs';
 import { ItemSummary } from './ItemSummary';
 import s from './itemList.module.scss';
 import { Time } from '../../shared/time';
 import { Overlay } from 'vant';
+import { Form, FormItem } from '../../shared/Form';
 
 export const itemList = defineComponent({
   setup: (props, context) => {
-    const refOverlayVisible = ref(false)
     const refSelected = ref('本月')
     const time = new Time()
     const customtime = reactive({
@@ -29,6 +29,16 @@ export const itemList = defineComponent({
         end: time.lastDayOfYear()
       }
     ]
+    const refOverlayVisible = ref(false)
+    watchEffect(() => {
+      if (refSelected.value === '自定义时间') {
+        refOverlayVisible.value = true
+      }
+    })
+    const onSubmitCustomTime = (e: Event) => {
+      e.preventDefault()
+      refOverlayVisible.value = false
+    }
     return () => (
       <MainLayout>{
         {
@@ -63,9 +73,18 @@ export const itemList = defineComponent({
                 </ItemSummary>
               </Tab>
             </Tabs>
-            <overlay show={refOverlayVisible.value} class={s.overlay} >
-              
-              </overlay>
+            <Overlay show={refOverlayVisible.value} class={s.overlay} >
+              <div class={s.overlay_inner}>
+                <header>请选择时间</header>
+                <main>
+                  <Form onSubmit={onSubmitCustomTime}>
+                    <FormItem label='开始时间'
+                      v-model={customtime.start} type='date'
+                    ></FormItem>
+                  </Form>
+                </main>
+              </div>
+            </Overlay>
           </>
         }
       }</MainLayout>

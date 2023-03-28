@@ -1,7 +1,9 @@
 import { format } from 'echarts';
-import { computed, defineComponent, PropType } from 'vue';
+import { Popup, DatetimePicker } from 'vant';
+import { computed, defineComponent, PropType, ref } from 'vue';
 import { EmojiSelect } from './emojiSelect';
 import s from './Form.module.scss';
+import { Time } from './time';
 export const Form = defineComponent({
   props: {
     onSubmit: {
@@ -19,6 +21,9 @@ export const Form = defineComponent({
 
 export const FormItem = defineComponent({
   props: {
+    onCancel: {
+      type: Function as PropType<(e: Event) => void>
+    },
     label: {
       type: String
     },
@@ -33,12 +38,13 @@ export const FormItem = defineComponent({
     }
   },
   setup: (props, context) => {
+    const refDateVisible = ref(false)
     const content = computed(() => {
       switch (props.type) {
         case 'text':
           return <input value={props.modelValue}
             onInput={(e: any) => context.emit('update:modelValue', e.target.value)}
-            class={[s.formItem, s.input, s.error]}
+            class={[s.formItem, s.input]}
           ></input>
         case 'emojiSelect':
           return <EmojiSelect
@@ -47,7 +53,19 @@ export const FormItem = defineComponent({
           >
           </EmojiSelect>
         case 'date':
-          return <input />
+          return <>
+            <input readonly={true} value={props.modelValue}
+              onClick={() => { refDateVisible.value = true }}
+              class={[s.formItem, s.input]} />
+            <Popup position='bottom' v-model:show={refDateVisible.value}>
+              <DatetimePicker value={props.modelValue} type="date" title="选择年月日"
+                onConfirm={(date: Date) => {
+                  context.emit('update:modelValue', new Time(date).format())
+                  refDateVisible.value = false
+                }}
+                onCancel={() => refDateVisible.value = false} />
+            </Popup>
+          </>
         case undefined:
           return context.slots.default?.()
       }
