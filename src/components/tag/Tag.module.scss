@@ -88,3 +88,11 @@
     transform: translate(0px, 0px);
   }
 }
+.actions{
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  .removeTags,.removeTagsAndItems{
+    width: calc(50% - 8px);
+  }
+}
