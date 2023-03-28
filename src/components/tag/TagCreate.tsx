@@ -26,8 +26,7 @@ export const TagCreate = defineComponent({
       formData.sign = ''
     }
     const onSubmit = (e: Event) => {
-      activeName.value = false
-      activeLabel.value = false
+
       const rules: Rules<typeof formData> = [
         { key: 'name', type: 'required', message: "必填" },
         { key: 'name', type: 'pattern', regex: /^.{1,6}$/, message: "只能填1到6个字符" },
@@ -40,11 +39,17 @@ export const TagCreate = defineComponent({
       Object.assign(errors, validate(formData, rules))
       if (errors['sign']?.[0]) {
         activeLabel.value = true
-      }
-      if (errors['name']?.[0]) {
+        setTimeout(() => {
+          activeLabel.value = false
+        }, 1000);
+      } else if (errors['name']?.[0]) {
         activeName.value = true
+        setTimeout(() => {
+          activeName.value = false
+        }, 1000);
+      } else {
+        router.push('/items/create')
       }
-      router.push('/items/create')
       e.preventDefault()
     }
     return () => (

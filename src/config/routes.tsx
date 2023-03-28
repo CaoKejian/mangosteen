@@ -38,7 +38,7 @@ export const routes: Readonly<RouteRecordRaw[]> = [
   { path: '/tags', component: TagPage,
     children:[
       {path:'create',component:TagCreate},
-      {path:':id',component:TagExit}
+      {path:':id/edit',component:TagExit}
     ]
   }
 
