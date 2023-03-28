@@ -4,6 +4,7 @@ import { Button } from '../../shared/Button';
 import s from './TagCreate.module.scss';
 import { EmojiSelect } from '../../shared/emojiSelect';
 import { Rules, validate } from '../../shared/validate';
+import { useRouter } from 'vue-router';
 export const TagCreate = defineComponent({
   props: {
     name: {
@@ -11,6 +12,7 @@ export const TagCreate = defineComponent({
     }
   },
   setup: (props, context) => {
+    const router = useRouter()
     const formData = reactive({
       name: '',
       sign: '',
@@ -41,9 +43,8 @@ export const TagCreate = defineComponent({
       }
       if (errors['name']?.[0]) {
         activeName.value = true
-
       }
-
+      router.push('/items/create')
       e.preventDefault()
     }
     return () => (

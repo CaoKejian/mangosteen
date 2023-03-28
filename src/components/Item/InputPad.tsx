@@ -78,7 +78,7 @@ export const InputPad = defineComponent({
         </span>
       </div>
       <div class={s.buttons}>
-        {buttons.map(button =>
+        {buttons.map((button, index) =>
           <button class={s.button} onClick={button.onClick}>{button.text}</button>
         )}
       </div>

@@ -1,4 +1,5 @@
 .tabs{
+  position: relative;
   &_nav{
     display: flex;
     justify-content: space-between;
@@ -6,6 +7,9 @@
     font-size: 16px;
     color: var(--navbar-text);
     align-items: center;
+    position: sticky;
+    z-index: 1;
+    top: 0;
     >li{
       flex-grow: 1;
       flex-shrink: 0;
