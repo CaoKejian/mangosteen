@@ -6,6 +6,7 @@ import s from './itemList.module.scss';
 import { Time } from '../../shared/time';
 import { Overlay } from 'vant';
 import { Form, FormItem } from '../../shared/Form';
+import { Button } from '../../shared/Button';
 
 export const itemList = defineComponent({
   setup: (props, context) => {
@@ -81,6 +82,15 @@ export const itemList = defineComponent({
                     <FormItem label='开始时间'
                       v-model={customtime.start} type='date'
                     ></FormItem>
+                    <FormItem label='结束时间'
+                      v-model={customtime.end} type='date'
+                    ></FormItem>
+                    <FormItem class={s.actions}>
+                      <div>
+                        <Button type='button'>取消</Button>
+                        <Button type='submit'>确认</Button>
+                      </div>
+                    </FormItem>
                   </Form>
                 </main>
               </div>

@@ -29,6 +29,7 @@
     border: none;
     background: transparent;
     padding: 8px 16px;
+    color: var(--emoji-nav-text-selected);
     & + & {
       margin-left: 16px;
     }
