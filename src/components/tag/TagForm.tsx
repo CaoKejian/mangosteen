@@ -1,9 +1,10 @@
 import { defineComponent, PropType, reactive, ref } from 'vue';
 import { Button } from '../../shared/Button';
-import { EmojiSelect } from '../../shared/emojiSelect';
 import { Rules, validate } from '../../shared/validate';
 import { useRouter } from 'vue-router'
 import s from './Tag.module.scss';
+import { Form, FormItem } from '../../shared/Form';
+import { EmojiSelect } from '../../shared/emojiSelect';
 export const TagForm = defineComponent({
   props: {
     name: {
@@ -36,15 +37,16 @@ export const TagForm = defineComponent({
         sign: undefined
       })
       Object.assign(errors, validate(formData, rules))
-      if (errors['sign']?.[0]) {
-        activeLabel.value = true
-        setTimeout(() => {
-          activeLabel.value = false
-        }, 1000);
-      } else if (errors['name']?.[0]) {
+      if (errors.name) {
         activeName.value = true
         setTimeout(() => {
           activeName.value = false
+        }, 1000);
+      } if (errors.sign) {
+        console.log(errors);
+        activeLabel.value = true
+        setTimeout(() => {
+          activeLabel.value = false
         }, 1000);
       } else {
         router.push('/items/create')
