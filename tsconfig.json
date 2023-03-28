@@ -22,7 +22,7 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "src/vite_plugins/**/*"
-  ],
+, "src/components/Item/1"  ],
   "references": [
     {
       "path": "./tsconfig.node.json"

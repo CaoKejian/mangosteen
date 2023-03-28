@@ -1,6 +1,7 @@
 import { defineComponent, PropType, ref } from 'vue';
 import { MainLayout } from '../../layouts/MainLayout';
 import { Tab, Tabs } from '../../shared/Tabs';
+import { ItemSummary } from './ItemSummary';
 import s from './itemList.module.scss';
 export const itemList = defineComponent({
   props: {
@@ -16,11 +17,19 @@ export const itemList = defineComponent({
           title: () => '山竹记账',
           icon: () => <svg class={s.svg}><use xlinkHref='#menu'></use></svg>,
           default: () => <>
-            <Tabs class={s.tabs} v-model:selected={refSelected.value}>
-              <Tab name='本月'>1</Tab>
-              <Tab name='上个月'>2</Tab>
-              <Tab name='今年'>3</Tab>
-              <Tab name='自定义'>4</Tab>
+            <Tabs v-model:selected={refSelected.value}>
+              <Tab name='本月'>
+                <ItemSummary></ItemSummary>
+              </Tab>
+              <Tab name='上个月'>
+                <ItemSummary></ItemSummary>
+              </Tab>
+              <Tab name='今年'>
+                <ItemSummary></ItemSummary>
+              </Tab>
+              <Tab name='自定义'>
+                <ItemSummary></ItemSummary>
+              </Tab>
             </Tabs>
           </>
         }

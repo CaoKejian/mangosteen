@@ -1,6 +1,6 @@
 import { defineComponent, PropType, ref } from 'vue';
 import s from './InputPad.module.scss';
-import { time } from '../../shared/time';
+import { Time } from '../../shared/time';
 import { DatetimePicker, NumberKeyboard, Popup } from 'vant';
 
 export const InputPad = defineComponent({
@@ -66,7 +66,7 @@ export const InputPad = defineComponent({
           <svg class={s.svg}>
             <use xlinkHref='#date'></use>
           </svg>
-          <span class={s.datespan} onClick={showDatePicker}>{time(refDate.value).format()}</span>
+          <span class={s.datespan} onClick={showDatePicker}>{new Time(refDate.value).format()}</span>
           <Popup position='bottom' v-model:show={refDatePickerVisible.value}>
             <DatetimePicker value={refDate.value} type="date" title="选择年月日" min-date={new Date(2023, 1, 1)} max-date={new Date()}
               onConfirm={setDate} onCancel={hideDatePicker}
