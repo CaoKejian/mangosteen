@@ -1,4 +1,4 @@
-import { customRef, defineComponent, PropType, reactive, ref, watchEffect } from 'vue';
+import { defineComponent, reactive, ref } from 'vue';
 import { MainLayout } from '../../layouts/MainLayout';
 import { Tab, Tabs } from '../../shared/Tabs';
 import { ItemSummary } from './ItemSummary';
@@ -7,6 +7,7 @@ import { Time } from '../../shared/time';
 import { Overlay } from 'vant';
 import { Form, FormItem } from '../../shared/Form';
 import { Button } from '../../shared/Button';
+import { OverLay } from '../../shared/OverLay';
 
 export const itemList = defineComponent({
   setup: (props, context) => {
@@ -40,11 +41,15 @@ export const itemList = defineComponent({
         refOverlayVisible.value = true
       }
     }
+    const overlayVisible = ref(false)
+    const onClickMenu = () => {
+      overlayVisible.value = !overlayVisible.value
+    }
     return () => (
       <MainLayout>{
         {
           title: () => '山竹记账',
-          icon: () => <svg class={s.svg}><use xlinkHref='#menu'></use></svg>,
+          icon: () => <svg class={s.svg} onClick={onClickMenu}><use xlinkHref='#menu'></use></svg>,
           default: () => <>
             <Tabs v-model:selected={refSelected.value}
               onUpdate:selected={onSelect}
@@ -97,6 +102,10 @@ export const itemList = defineComponent({
                 </main>
               </div>
             </Overlay>
+            {
+              overlayVisible.value &&
+              <OverLay onClose={() => overlayVisible.value = false} />
+            }
           </>
         }
       }</MainLayout >
