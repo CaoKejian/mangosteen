@@ -12,6 +12,7 @@ import { SecondActions } from "../components/welcome/secondActions";
 import { Third } from "../components/welcome/third";
 import { ThirdActions } from "../components/welcome/thirdActions";
 import { ItemPage } from "../views/ItemPage";
+import { SignInPage } from "../views/SignInPage";
 import { Start } from "../views/Start";
 import { TagPage } from "../views/TagPage";
 import { Welcome } from "../views/Welcome";
@@ -35,11 +36,15 @@ export const routes: Readonly<RouteRecordRaw[]> = [
       { path: "create", component: itemCreate },
     ]
   },
-  { path: '/tags', component: TagPage,
-    children:[
-      {path:'create',component:TagCreate},
-      {path:':id/edit',component:TagExit}
+  {
+    path: '/tags', component: TagPage,
+    children: [
+      { path: 'create', component: TagCreate },
+      { path: ':id/edit', component: TagExit }
     ]
+  },
+  {
+    path: '/sign_in', component: SignInPage
   }
 
 ]
