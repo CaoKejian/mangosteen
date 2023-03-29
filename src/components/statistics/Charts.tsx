@@ -15,6 +15,7 @@ export const Charts = defineComponent({
       required: true
     }
   },
+
   setup: (props, context) => {
     const category = ref('expenses')
     const refDiv = ref<HTMLDivElement>()
@@ -150,138 +151,73 @@ export const Charts = defineComponent({
       myChart.setOption(option)
     }
     const initball = () => {
+      const rate = 0.5
       if (refDiv3.value === undefined) return
       var myChart = echarts.init(refDiv3.value);
       const option = {
+        backgroundColor: '#fff',
+        width: '100%',
+        height: '100%',
         title: [{
-          text: "本月支出占比\n",
+          text: "本月支出占比",
           left: "center",
-          bottom: "5%",
+          bottom: "20%",
           textStyle: {
-            fontWeight: "normal",
+            fontWeight: "bold",
             fontSize: 14,
-            color: "#333",
+            color: "#fff",
           },
         },
         ],
         series: [
           {
-            type: "liquidFill",
-            radius: "45%",
-            center: ["50%", "45%"],
-            data: [0.5, 0.5, 0.5], // data个数代表波浪数
+            color: ['#cbb6eb', '#753fca'], //波浪的颜色
+            type: 'liquidFill',
+            radius: '90%',
+            data: [
+              //波浪的高度占比 (第一个是浅色的 : 在传过来的数据上加上一点作为展示效果,第二个用传过来的数据)
+              {
+                value: rate + 0.05,
+              },
+              {
+                value: rate,
+              },
+            ],
+            center: ['50%', '50%'], //图在整个画布的位置
             backgroundStyle: {
-              borderWidth: 1,
-              color: "rgb(255,0,255,0.1)",
+              color: 'white',
+              borderColor: '#8f4cd7', //边框颜色
+              borderWidth: 2, //边框粗细
+              shadowColor: '#8f4cd7', //阴影颜色
+              shadowBlur: 5, //阴影范围
             },
             label: {
+              //水球图里面的文字喝字体等设置
               normal: {
-                formatter: " \n \n65%",
-                // color: "blue",
+                formatter: function (value: number) {
+                  if (!value) {
+                    return '加载中';
+                  } else {
+                    return rate * 100 + '%';
+                  }
+                },
                 textStyle: {
-                  fontSize: 20,
-                  color: "#fff",
+                  fontSize: 22,
                 },
               },
             },
             outline: {
-              show: false,
+              //水球图的外层边框 可设置 show:false  不显示
+              itemStyle: {
+                borderColor: '#DCDCDC',
+                borderWidth: 3,
+              },
+              borderDistance: 0,
             },
-          },
-          {
-            type: "pie",
-            center: ["50%", "45%"],
-            radius: ["50%", "52%"],
-            hoverAnimation: false,
-            data: [
-              {
-                name: "",
-                value: 500,
-                labelLine: {
-                  show: false,
-                },
-                itemStyle: {
-                  color: "#009cff",
-                },
-                emphasis: {
-                  labelLine: {
-                    show: false,
-                  },
-                  itemStyle: {
-                    color: "#009cff",
-                  },
-                },
-              },
-              {
-                //画中间的图标
-                name: "",
-                value: 4,
-                labelLine: {
-                  show: false,
-                },
-                itemStyle: {
-                  color: "#ffffff",
-                  normal: {
-                    color: "#009cff",
-                    borderColor: "#009cff",
-                    borderWidth: 10,
-                    // borderRadius: '100%'
-                  },
-                },
-                label: {
-                  borderRadius: "100%",
-                },
-                emphasis: {
-                  labelLine: {
-                    show: false,
-                  },
-                  itemStyle: {
-                    color: "#009cff",
-                  },
-                },
-              },
-              {
-                // 解决圆点过大后续部分显示明显的问题
-                name: "",
-                value: 4,
-                labelLine: {
-                  show: false,
-                },
-                itemStyle: {
-                  color: "#009cff",
-                },
-                emphasis: {
-                  labelLine: {
-                    show: false,
-                  },
-                  itemStyle: {
-                    color: "#009cff",
-                  },
-                },
-              },
-              {
-                //画剩余的刻度圆环
-                name: "",
-                value: 88,
-                itemStyle: {
-                  color: "rgba(9,59,118,0.95)",
-                },
-                label: {
-                  show: false,
-                },
-                labelLine: {
-                  show: false,
-                },
-                emphasis: {
-                  labelLine: {
-                    show: false,
-                  },
-                  itemStyle: {
-                    color: "rgba(255,255,255,0)",
-                  },
-                },
-              },
-            ],
+            itemStyle: {
+              opacity: 0.95,
+              shadowColor: 'rgba(0,0,0,0)',
+            },
           },
         ],
       }
