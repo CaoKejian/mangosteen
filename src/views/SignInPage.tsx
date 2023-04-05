@@ -13,13 +13,14 @@ export const SignInPage = defineComponent({
   },
   setup: (props, context) => {
     const formData = reactive({
-      email: '',
+      email: '1849201815@qq.com',
       code: ''
     })
     const errors = reactive({
       email: [],
       code: []
     })
+    const refValidationCode = ref<any>('')
     const onSubmit = (e: Event) => {
       e.preventDefault()
       const reules: Rules<typeof formData> = [
@@ -33,8 +34,8 @@ export const SignInPage = defineComponent({
       Object.assign(errors, validate(formData, reules))
     }
     const onClickSendValidationCode = async () => {
-
-      // const response = await axios.post('/api/v1/validation_codes', { email: formData.email })
+      const response = await axios.post('/api/v1/validation_codes', { email: formData.email })
+      refValidationCode.value.startCount()
     }
     return () => (
       <MainLayout>{
@@ -50,7 +51,7 @@ export const SignInPage = defineComponent({
               <Form onSubmit={onSubmit}>
                 <FormItem label='邮箱地址' type='text' v-model={formData.email}
                   placeholder='请输入邮箱，然后点击发送验证码' error={errors.email?.[0] ?? '　'}></FormItem>
-                <FormItem countForm={3} label='验证码' type='validationcode'
+                <FormItem ref={refValidationCode} countForm={3} label='验证码' type='validationcode'
                   placeholder='请输入六位数字'
                   onClick={onClickSendValidationCode}
                   v-model={formData.code} error={errors.code?.[0] ?? '　'}
