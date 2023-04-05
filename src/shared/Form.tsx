@@ -40,11 +40,29 @@ export const FormItem = defineComponent({
     placeholder: String,
     options: Array as PropType<Array<{ value: string, text: string }>>,
     px: String,
-    onClick: Function as PropType<() => void>
+    onClick: Function as PropType<() => void>,
+    countForm: {
+      type: Number,
+      default: 60
+    }
   },
   emits: ['update:modelValue'],
   setup: (props, context) => {
     const refDateVisible = ref(false)
+    const timer = ref<number>()
+    const count = ref<number>(props.countForm)
+    const isCounting: any = computed(() => !!timer.value)
+    const onClickSendValidationCode = () => {
+      props.onClick?.()
+      timer.value = setInterval(() => {
+        count.value -= 1
+        if (count.value == 0) {
+          clearInterval(timer.value)
+          timer.value = undefined
+          count.value = props.countForm
+        }
+      }, 1000)
+    }
     const content = computed(() => {
       switch (props.type) {
         case 'text':
@@ -64,7 +82,7 @@ export const FormItem = defineComponent({
             <input class={[s.formItem, s.input, s.validationcode]}
               onInput={(e: any) => context.emit('update:modelValue', e.target.value)} placeholder={props.placeholder}
             />
-            <Button onClick={props.onClick} class={s.validationcodeButton}>发送验证码</Button>
+            <Button disabled={isCounting.value} onClick={onClickSendValidationCode} class={s.validationcodeButton}>{isCounting.value ? `${count.value}s后可重新发送` : '发送验证码'}</Button>
           </>
         case 'select':
           return <select class={[s.formItem, s.select]}

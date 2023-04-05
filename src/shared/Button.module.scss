@@ -7,6 +7,10 @@
   font-size: var(--button-font-size);
   border-radius: var(--button-radius);
   letter-spacing: 1px;
+  &[disabled]{
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
   &.normal{
 
   }
