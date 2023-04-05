@@ -39,7 +39,8 @@ export const FormItem = defineComponent({
     },
     placeholder: String,
     options: Array as PropType<Array<{ value: string, text: string }>>,
-    px: String
+    px: String,
+    onClick: Function as PropType<() => void>
   },
   emits: ['update:modelValue'],
   setup: (props, context) => {
@@ -63,7 +64,7 @@ export const FormItem = defineComponent({
             <input class={[s.formItem, s.input, s.validationcode]}
               onInput={(e: any) => context.emit('update:modelValue', e.target.value)} placeholder={props.placeholder}
             />
-            <Button class={s.validationcodeButton}>发送验证码</Button>
+            <Button onClick={props.onClick} class={s.validationcodeButton}>发送验证码</Button>
           </>
         case 'select':
           return <select class={[s.formItem, s.select]}
