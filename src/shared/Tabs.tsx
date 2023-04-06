@@ -6,7 +6,7 @@ export const Tabs = defineComponent({
       type: String as PropType<string>
     },
   },
-  emits:['update:selected'],
+  emits: ['update:selected'],
   setup: (props, context) => {
     return () => {
       const array = context.slots.default?.()
@@ -36,7 +36,7 @@ export const Tab = defineComponent({
   props: {
     name: {
       type: String as PropType<string>
-    }
+    },
   },
   setup: (props, context) => {
     return () => (

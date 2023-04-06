@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { defineComponent, onMounted, onUpdated, PropType, ref } from 'vue';
+import { defineComponent, onMounted, onUpdated, PropType, ref, watch } from 'vue';
 import { MainLayout } from '../../layouts/MainLayout';
 import { Button } from '../../shared/Button';
 import { http } from '../../shared/Http';
@@ -7,6 +7,7 @@ import { Tab, Tabs } from '../../shared/Tabs';
 import { useTags } from '../../shared/useTags';
 import { InputPad } from './InputPad';
 import s from './itemCreate.module.scss';
+import 'animate.css';
 export const itemCreate = defineComponent({
   props: {
     name: {
@@ -29,19 +30,7 @@ export const itemCreate = defineComponent({
         _mock: 'tagIndex'
       })
     })
-    // const response = await http.get<Resources<Tag>>('/tags', {
-    //   kind: 'expenses',
-    //   page: page.value + 1,
-    //   _mock: 'tagIndex'
-    // })
-    // onMounted(async () => {
-    //   const response = await http.get<{ resources: Tag[] }>('/tags', {
-    //     kind: 'income',
-    //     page: refPage.value + 1,
-    //     _mock: 'tagIndex'
-    //   })
-    //   refIncomeTags.value = response.data.resources
-    // })
+
     return () => (
       <MainLayout class={s.main}>{
         {
@@ -51,60 +40,65 @@ export const itemCreate = defineComponent({
             <div class={s.wrapper}>
               <Tabs v-model:selected={refkind.value} class={s.tabs}>
                 <Tab name='支出' >
-                  <div class={s.tags_wrapper}>
-                    <div class={s.tag}>
-                      <div class={s.sign}>
-                        <svg class={s.createTag}><use xlinkHref='#add'></use></svg>
-                      </div>
-                      <div class={s.name}>
-                        新增
-                      </div>
-                    </div>
-                    {expensesTags.value.map(tag =>
-                      <div class={[s.tag, s.selected]}>
+                  <div class="animate__animated animate__fadeInLeft animate__faster">
+                    <div class={s.tags_wrapper}>
+                      <div class={s.tag}>
                         <div class={s.sign}>
-                          {tag.sign}
+                          <svg class={s.createTag}><use xlinkHref='#add'></use></svg>
                         </div>
                         <div class={s.name}>
-                          {tag.name}
+                          新增
                         </div>
                       </div>
-                    )}
-                  </div>
-                  <div class={s.loadMore_wrapper}>
-                    {hasMore.value ?
-                      <Button class={s.loadMore} onClick={fetchTags}>加载更多</Button> :
-                      <span class={s.noMore}>没有更多了</span>
-                    }
+                      {expensesTags.value.map(tag =>
+                        <div class={[s.tag, s.selected]}>
+                          <div class={s.sign}>
+                            {tag.sign}
+                          </div>
+                          <div class={s.name}>
+                            {tag.name}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <div class={s.loadMore_wrapper}>
+                      {hasMore.value ?
+                        <Button class={s.loadMore} onClick={fetchTags}>加载更多</Button> :
+                        <span class={s.noMore}>没有更多了</span>
+                      }
+                    </div>
                   </div>
                 </Tab>
                 <Tab name='收入' >
-                  <div class={s.tags_wrapper}>
-                    <div class={s.tag}>
-                      <div class={s.sign}>
-                        <svg class={s.createTag}><use xlinkHref='#add'></use></svg>
-                      </div>
-                      <div class={s.name}>
-                        新增
-                      </div>
-                    </div>
-                    {incomeTags.value.map(tag =>
-                      <div class={[s.tag, s.selected]}>
+                  <div class="animate__animated animate__fadeInRight animate__faster">
+                    <div class={s.tags_wrapper} >
+                      <div class={s.tag}>
                         <div class={s.sign}>
-                          {tag.sign}
+                          <svg class={s.createTag}><use xlinkHref='#add'></use></svg>
                         </div>
                         <div class={s.name}>
-                          {tag.name}
+                          新增
                         </div>
                       </div>
-                    )}
+                      {incomeTags.value.map(tag =>
+                        <div class={[s.tag, s.selected]}>
+                          <div class={s.sign}>
+                            {tag.sign}
+                          </div>
+                          <div class={s.name}>
+                            {tag.name}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <div class={s.loadMore_wrapper}>
+                      {hasMore2.value ?
+                        <Button class={s.loadMore} onClick={fetchTags2}>加载更多</Button> :
+                        <span class={s.noMore}>没有更多了</span>
+                      }
+                    </div>
                   </div>
-                  <div class={s.loadMore_wrapper}>
-                    {hasMore2.value ?
-                      <Button class={s.loadMore} onClick={fetchTags2}>加载更多</Button> :
-                      <span class={s.noMore}>没有更多了</span>
-                    }
-                  </div>
+
                 </Tab>
               </Tabs>
               <div class={s.inputPad_wrapper}>
