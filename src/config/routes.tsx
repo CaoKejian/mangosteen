@@ -19,13 +19,13 @@ import { StatisticsPage } from "../views/StatisticsPage";
 import { TagPage } from "../views/TagPage";
 import { Welcome } from "../views/Welcome";
 
-export const routes: Readonly<RouteRecordRaw[]> = [
+export const routes: RouteRecordRaw[] = [
   { path: '/', redirect: '/welcome' },
   {
     path: '/welcome', component: Welcome,
-    beforeEnter:(to,from,next) => {
+    beforeEnter: (to, from, next) => {
       localStorage.getItem('skip') === '1' ? next('/start') : next()
-    }, 
+    },
     children: [
       { path: '', redirect: '/welcome/1' },
       { path: '1', name: 'welcome1', components: { main: First, footer: FirstActions }, },
@@ -37,12 +37,6 @@ export const routes: Readonly<RouteRecordRaw[]> = [
   { path: '/start', component: Start },
   {
     path: '/items', component: ItemPage,
-    beforeEnter:async(to,from,next)=>{
-      await http.get('/me').catch(()=>{
-        next('/sign_in?return_to=' + to.path)
-      })
-      next()
-    },
     children: [
       { path: "", component: itemList },
       { path: "create", component: itemCreate },
@@ -50,6 +44,12 @@ export const routes: Readonly<RouteRecordRaw[]> = [
   },
   {
     path: '/tags', component: TagPage,
+    beforeEnter: async (to, from, next) => {
+      await http.get('/me').catch(() => {
+        next('/sign_in?return_to=' + to.path)
+      })
+      next()
+    },
     children: [
       { path: 'create', component: TagCreate },
       { path: ':id/edit', component: TagExit }
@@ -59,7 +59,12 @@ export const routes: Readonly<RouteRecordRaw[]> = [
     path: '/sign_in', component: SignInPage
   },
   {
-    path: '/statistics', component: StatisticsPage
+    path: '/statistics', component: StatisticsPage,
+    beforeEnter: async (to, from, next) => {
+      await http.get('/me').catch(() => {
+        next('/sign_in?return_to=' + to.path)
+      })
+      next()
+    },
   }
-
 ]
