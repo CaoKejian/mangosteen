@@ -56,3 +56,14 @@
     }
   }
 }
+.loadMore_wrapper{
+  padding: 16px;
+  text-align: center;
+  .loadMore{
+
+  }
+  .noMore{
+    font-size: 14px;
+    color: var(--list-tag-text);
+  }
+}
