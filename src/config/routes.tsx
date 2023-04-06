@@ -21,7 +21,11 @@ import { Welcome } from "../views/Welcome";
 export const routes: Readonly<RouteRecordRaw[]> = [
   { path: '/', redirect: '/welcome' },
   {
-    path: '/welcome', component: Welcome, children: [
+    path: '/welcome', component: Welcome,
+    beforeEnter:(to,from,next) => {
+      localStorage.getItem('skip') === '1' ? next('/start') : next()
+    }, 
+    children: [
       { path: '', redirect: '/welcome/1' },
       { path: '1', name: 'welcome1', components: { main: First, footer: FirstActions }, },
       { path: '2', name: 'welcome2', components: { main: Second, footer: SecondActions }, },
