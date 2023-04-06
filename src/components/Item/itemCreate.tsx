@@ -1,5 +1,7 @@
-import { defineComponent, onUpdated, PropType, ref } from 'vue';
+import { faker } from '@faker-js/faker';
+import { defineComponent, onMounted, onUpdated, PropType, ref } from 'vue';
 import { MainLayout } from '../../layouts/MainLayout';
+import { http } from '../../shared/Http';
 import { Tab, Tabs } from '../../shared/Tabs';
 import { InputPad } from './InputPad';
 import s from './itemCreate.module.scss';
@@ -11,55 +13,22 @@ export const itemCreate = defineComponent({
   },
   setup: (props, context) => {
     const refkind = ref('支出')
-    const onUpdatedSelected = (name: string) => {
-      refkind.value = name
-    }
-    const refExpensesTags = ref([
-      { id: 1, name: '餐费', sign: '￥', category: 'expenses' },
-      { id: 2, name: '打车', sign: '￥', category: 'expenses' },
-      { id: 3, name: '聚餐', sign: '￥', category: 'expenses' },
-      { id: 4, name: '打车', sign: '￥', category: 'expenses' },
-      { id: 5, name: '聚餐', sign: '￥', category: 'expenses' },
-      { id: 6, name: '打车', sign: '￥', category: 'expenses' },
-      { id: 7, name: '聚餐', sign: '￥', category: 'expenses' },
-    ])
-    const refIncomeTags = ref([
-      { id: 4, name: '工资', sign: '￥', category: 'income' },
-      { id: 5, name: '彩票', sign: '￥', category: 'income' },
-      { id: 6, name: '滴滴', sign: '￥', category: 'income' },
-      { id: 11, name: '彩票', sign: '￥', category: 'income' },
-      { id: 18, name: '滴滴', sign: '￥', category: 'income' },
-      { id: 17, name: '彩票', sign: '￥', category: 'income' },
-      { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-      { id: 4, name: '工资', sign: '￥', category: 'income' },
-      { id: 5, name: '彩票', sign: '￥', category: 'income' },
-      { id: 6, name: '滴滴', sign: '￥', category: 'income' },
-      { id: 11, name: '彩票', sign: '￥', category: 'income' },
-      { id: 18, name: '滴滴', sign: '￥', category: 'income' },
-      { id: 17, name: '彩票', sign: '￥', category: 'income' },
-      { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-      { id: 4, name: '工资', sign: '￥', category: 'income' },
-      { id: 5, name: '彩票', sign: '￥', category: 'income' },
-      { id: 6, name: '滴滴', sign: '￥', category: 'income' },
-      { id: 11, name: '彩票', sign: '￥', category: 'income' },
-      { id: 18, name: '滴滴', sign: '￥', category: 'income' },
-      { id: 17, name: '彩票', sign: '￥', category: 'income' },
-      { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-      { id: 4, name: '工资', sign: '￥', category: 'income' },
-      { id: 5, name: '彩票', sign: '￥', category: 'income' },
-      { id: 6, name: '滴滴', sign: '￥', category: 'income' },
-      { id: 11, name: '彩票', sign: '￥', category: 'income' },
-      { id: 18, name: '滴滴', sign: '￥', category: 'income' },
-      { id: 17, name: '彩票', sign: '￥', category: 'income' },
-      { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-      { id: 4, name: '工资', sign: '￥', category: 'income' },
-      { id: 5, name: '彩票', sign: '￥', category: 'income' },
-      { id: 6, name: '滴滴', sign: '￥', category: 'income' },
-      { id: 11, name: '彩票', sign: '￥', category: 'income' },
-      { id: 18, name: '滴滴', sign: '￥', category: 'income' },
-      { id: 17, name: '彩票', sign: '￥', category: 'income' },
-      { id: 19, name: '滴滴', sign: '￥', category: 'income' },
-    ])
+    onMounted(async () => {
+      const response = await http.get<{ resources: Tag[] }>('/tags', {
+        kind: 'expenses',
+        _mock: 'tagIndex'
+      })
+      refExpensesTags.value = response.data.resources
+    })
+    const refExpensesTags = ref<Tag[]>([])
+    onMounted(async () => {
+      const response = await http.get<{ resources: Tag[] }>('/tags', {
+        kind: 'income',
+        _mock: 'tagIndex'
+      })
+      refIncomeTags.value = response.data.resources
+    })
+    const refIncomeTags = ref<Tag[]>([])
     return () => (
       <MainLayout class={s.main}>{
         {
@@ -67,7 +36,7 @@ export const itemCreate = defineComponent({
           icon: () => <svg class={s.svg}><use xlinkHref='#return'></use></svg>,
           default: () => <>
             <div class={s.wrapper}>
-              <Tabs v-model:selected={refkind.value}  class={s.tabs}>
+              <Tabs v-model:selected={refkind.value} class={s.tabs}>
                 <Tab name='支出' class={s.tags_wrapper}>
                   <div class={s.tag}>
                     <div class={s.sign}>
