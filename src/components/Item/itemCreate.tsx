@@ -68,6 +68,30 @@ export const itemCreate = defineComponent({
       })
       router.push("/items")
     }
+    //* 长按编辑功能
+    const timer = ref<number>()
+    const currentTag = ref<HTMLDivElement>()
+    const onLongPress = () => {
+      console.log("长按");
+    }
+    const onTouchStart = (e: TouchEvent) => {
+      currentTag.value = e.currentTarget as HTMLDivElement
+      timer.value = setTimeout(() => {
+        onLongPress()
+      }, 500)
+    }
+    const onTouchEnd = () => {
+      clearTimeout(timer.value)
+    }
+    const onTouchMove = (e: TouchEvent) => {
+      const pointElement = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY)
+      if (currentTag.value?.contains(pointElement) || currentTag.value === pointElement) {
+
+      } else {
+        clearTimeout(timer.value)
+      }
+    }
+    //*
     return () => (
       <MainLayout class={s.main}>{
         {
@@ -78,7 +102,7 @@ export const itemCreate = defineComponent({
               <Tabs v-model:selected={formData.kind} class={s.tabs}>
                 <Tab name='支出' >
                   <div class="animate__animated animate__fadeInLeft animate__faster">
-                    <div class={s.tags_wrapper}>
+                    <div class={s.tags_wrapper} onTouchmove={onTouchMove}>
                       <RouterLink to={'/tags/create?kind=expenses'} class={s.tag}>
                         <div class={s.sign}>
                           <svg class={s.createTag}><use xlinkHref='#add'></use></svg>
@@ -90,6 +114,8 @@ export const itemCreate = defineComponent({
                       {expensesTags.value.map(tag =>
                         <div class={[s.tag, select.value === tag.id ? s.selected : '']}
                           onClick={() => onSelect(tag)}
+                          onTouchstart={onTouchStart}
+                          onTouchend={onTouchEnd}
                         >
                           <div class={s.sign}>
                             {tag.sign}
