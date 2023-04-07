@@ -1,17 +1,14 @@
-import { defineComponent, PropType, reactive, ref } from 'vue';
+import { defineComponent, onMounted, PropType, reactive, ref } from 'vue';
 import { Button } from '../../shared/Button';
 import { hasError, Rules, validate } from '../../shared/validate';
 import { useRoute, useRouter } from 'vue-router'
 import s from './Tag.module.scss';
-import { Form, FormItem } from '../../shared/Form';
 import { EmojiSelect } from '../../shared/emojiSelect';
 import { http } from '../../shared/Http';
 import { Dialog } from 'vant';
 export const TagForm = defineComponent({
   props: {
-    name: {
-      type: String as PropType<string>
-    }
+    id: Number
   },
   setup: (props, context) => {
     const router = useRouter()
@@ -19,7 +16,8 @@ export const TagForm = defineComponent({
     if (!route.query.kind) {
       return () => <div>参数错误</div>
     }
-    const formData = reactive({
+    const formData = reactive<Partial<Tag>>({
+      id: undefined,
       kind: route.query.kind.toString(),
       name: '',
       sign: '',
@@ -44,6 +42,8 @@ export const TagForm = defineComponent({
         sign: []
       })
       Object.assign(errors, validate(formData, rules))
+      console.log(errors);
+      console.log(errors.name?.length, errors.sign?.length);
       if (errors.name?.length !== 0) {
         activeName.value = true
         setTimeout(() => {
@@ -55,11 +55,16 @@ export const TagForm = defineComponent({
           activeLabel.value = false
         }, 1000);
         return
-      } else if (errors.name?.length !== 0 && errors.sign?.length !== 0) {
+      } else {
         if (!hasError(errors)) {
-          const response = await http.post('/tags', formData, {
-            params: { _mock: 'tagCreate' }
-          }).catch(error => {
+          const promise = await formData.id ?
+            http.patch(`/tags/${formData.id}`, formData, {
+              params: { _mock: 'tagEdit' }
+            }) :
+            http.post('/tags', formData, {
+              params: { _mock: 'tagCreate' }
+            })
+          await promise.catch(error => {
             if (error.response.status === 422) {
               Dialog.alert({
                 title: "出错",
@@ -72,6 +77,14 @@ export const TagForm = defineComponent({
         }
       }
     }
+    onMounted(async () => {
+      formData.id = props.id
+      if (!props.id) return
+      const response = await http.get<Resource<Tag>>(`/tags/${props.id}`, {
+        _mock: 'tagShow'
+      })
+      Object.assign(formData, response.data.resource)
+    })
     return () => (
       <form class={s.form} onSubmit={onSubmit}>
         <div class={s.formRow}>

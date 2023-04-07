@@ -1,5 +1,4 @@
-import { faker } from '@faker-js/faker';
-import { defineComponent, onMounted, onUpdated, PropType, reactive, ref, watch } from 'vue';
+import { defineComponent, PropType, reactive, ref } from 'vue';
 import { MainLayout } from '../../layouts/MainLayout';
 import { Button } from '../../shared/Button';
 import { http } from '../../shared/Http';
@@ -137,7 +136,7 @@ export const itemCreate = defineComponent({
                 </Tab>
                 <Tab name='收入' >
                   <div class="animate__animated animate__fadeInRight animate__faster">
-                    <div class={s.tags_wrapper} >
+                    <div class={s.tags_wrapper} onTouchmove={onTouchMove}>
                       <RouterLink to={'/tags/create?kind=income'} class={s.tag}>
                         <div class={s.sign}>
                           <svg class={s.createTag}><use xlinkHref='#add'></use></svg>
@@ -149,6 +148,8 @@ export const itemCreate = defineComponent({
                       {incomeTags.value.map(tag =>
                         <div class={[s.tag, select.value === tag.id ? s.selected : '']}
                           onClick={() => onSelect(tag)}
+                          onTouchstart={(e) => onTouchStart(e, tag)}
+                          onTouchend={onTouchEnd}
                         >
                           <div class={s.sign}>
                             {tag.sign}

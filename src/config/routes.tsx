@@ -2,7 +2,7 @@ import { RouteRecordRaw } from "vue-router";
 import { itemCreate } from "../components/Item/itemCreate";
 import { itemList } from "../components/Item/itemList";
 import { TagCreate } from "../components/tag/TagCreate";
-import { TagExit } from "../components/tag/TagExit";
+import { TagEdit } from "../components/tag/TagEdit";
 import { First } from "../components/welcome/first";
 import { FirstActions } from "../components/welcome/firstActions";
 import { Forth } from "../components/welcome/forth";
@@ -52,7 +52,7 @@ export const routes: RouteRecordRaw[] = [
     },
     children: [
       { path: 'create', component: TagCreate },
-      { path: ':id/edit', component: TagExit }
+      { path: ':id/edit', component: TagEdit }
     ]
   },
   {

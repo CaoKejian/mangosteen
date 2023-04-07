@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import { mockItemCreate, mockSession, mockTagIndex } from "../mock/mock";
+import { mockItemCreate, mockSession, mockTagIndex, mockTagShow } from "../mock/mock";
 
 type GetConfig = Omit<AxiosRequestConfig, 'params' | 'url' | 'method'>
 type PostConfig = Omit<AxiosRequestConfig, 'url' | 'data' | 'method'>
@@ -51,7 +51,10 @@ const mock = (response: AxiosResponse) => {
       [response.status, response.data] = mockSession(response.config)
       return true
     case 'itemCreate':
-      [response.status,response.data] = mockItemCreate(response.config)
+      [response.status, response.data] = mockItemCreate(response.config)
+      return true
+    case 'tagShow':
+      [response.status, response.data] = mockTagShow(response.config)
       return true
   }
   return false
@@ -69,14 +72,14 @@ http.instance.interceptors.request.use(config => {
 
 http.instance.interceptors.response.use((response) => {
   mock(response)
-  if(response.status >= 400){
-    throw {response}
-  }else{
+  if (response.status >= 400) {
+    throw { response }
+  } else {
     return response
   }
 }, (error) => {
   mock(error.response)
-  if (error.response.status>= 400) {
+  if (error.response.status >= 400) {
     throw error
   } else {
     return error.response
