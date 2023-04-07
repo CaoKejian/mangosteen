@@ -71,13 +71,14 @@ export const itemCreate = defineComponent({
     //* 长按编辑功能
     const timer = ref<number>()
     const currentTag = ref<HTMLDivElement>()
-    const onLongPress = () => {
-      console.log("长按");
+    const onLongPress = (id: number) => {
+      console.log(id);
+      router.push(`/tags/${id}/edit?kind=${formData.kind}&return_to=${router.currentRoute.value.fullPath}`)
     }
-    const onTouchStart = (e: TouchEvent) => {
+    const onTouchStart = (e: TouchEvent, tag: Tag) => {
       currentTag.value = e.currentTarget as HTMLDivElement
       timer.value = setTimeout(() => {
-        onLongPress()
+        onLongPress(tag.id)
       }, 500)
     }
     const onTouchEnd = () => {
@@ -114,7 +115,7 @@ export const itemCreate = defineComponent({
                       {expensesTags.value.map(tag =>
                         <div class={[s.tag, select.value === tag.id ? s.selected : '']}
                           onClick={() => onSelect(tag)}
-                          onTouchstart={onTouchStart}
+                          onTouchstart={(e) => onTouchStart(e, tag)}
                           onTouchend={onTouchEnd}
                         >
                           <div class={s.sign}>
