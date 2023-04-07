@@ -1,34 +1,30 @@
-import { defineComponent, onMounted, PropType, ref } from 'vue';
-import { RouterLink } from 'vue-router';
-import { Button } from '../../shared/Button';
-import { FloatButton } from '../../shared/FloatButton';
-import { http } from '../../shared/Http';
-import s from './ItemSummary.module.scss';
+import { defineComponent, onMounted, PropType, ref } from 'vue'
+import { Button } from '../../shared/Button'
+import { FloatButton } from '../../shared/FloatButton'
+import { http } from '../../shared/Http'
+import s from './ItemSummary.module.scss'
 export const ItemSummary = defineComponent({
   props: {
     startDate: {
       type: String as PropType<string>,
-      required: false
+      required: false,
     },
     endDate: {
       type: String as PropType<string>,
-      required: false
-    }
+      required: false,
+    },
   },
   setup: (props, context) => {
     const items = ref<Item[]>([])
     const hasMore = ref(false)
     const page = ref(0)
     const fetchItems = async () => {
-      if (!props.startDate || !props.endDate) { return }
       const response = await http.get<Resources<Item>>('/items', {
         happen_after: props.startDate,
         happen_before: props.endDate,
         page: page.value + 1,
         _mock: 'itemIndex',
       })
-      console.log(response);
-
       const { resources, pager } = response.data
       items.value?.push(...resources)
       hasMore.value = (pager.page - 1) * pager.per_page + resources.length < pager.count
@@ -82,5 +78,5 @@ export const ItemSummary = defineComponent({
         <FloatButton />
       </div>
     )
-  }
+  },
 })

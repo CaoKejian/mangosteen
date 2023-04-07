@@ -3,7 +3,8 @@ import s from './Tabs.module.scss';
 export const Tabs = defineComponent({
   props: {
     selected: {
-      type: String as PropType<string>
+      type: String as PropType<string>,
+      required: false,
     },
   },
   emits: ['update:selected'],
@@ -25,7 +26,9 @@ export const Tabs = defineComponent({
               {item.props?.name}</li>)}
         </ol>
         <div>
-          {array.find(item => item.props?.name === props.selected)}
+          {array.map(item =>
+            <div v-show={item.props?.name === props.selected}>{item}</div>
+          )}
         </div>
       </div>
     }

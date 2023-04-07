@@ -32,8 +32,8 @@ export const TimeTabsLayout = defineComponent({
     const refSelected = ref('本月')
     const time = new Time()
     const customtime = reactive<{
-      start?:string 
-      end?:string
+      start?: string
+      end?: string
     }>({})
     const timeList = [
       {
