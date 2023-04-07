@@ -8,7 +8,7 @@ import { useTags } from '../../shared/useTags';
 import { InputPad } from './InputPad';
 import s from './itemCreate.module.scss';
 import 'animate.css';
-import { useRouter } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 import { Dialog } from 'vant';
 import { BackIcon } from '../../shared/BackIcon';
 export const itemCreate = defineComponent({
@@ -79,14 +79,14 @@ export const itemCreate = defineComponent({
                 <Tab name='支出' >
                   <div class="animate__animated animate__fadeInLeft animate__faster">
                     <div class={s.tags_wrapper}>
-                      <div class={s.tag}>
+                      <RouterLink to={'/tags/create?kind=expenses'} class={s.tag}>
                         <div class={s.sign}>
                           <svg class={s.createTag}><use xlinkHref='#add'></use></svg>
                         </div>
                         <div class={s.name}>
                           新增
                         </div>
-                      </div>
+                      </RouterLink>
                       {expensesTags.value.map(tag =>
                         <div class={[s.tag, select.value === tag.id ? s.selected : '']}
                           onClick={() => onSelect(tag)}
@@ -111,14 +111,14 @@ export const itemCreate = defineComponent({
                 <Tab name='收入' >
                   <div class="animate__animated animate__fadeInRight animate__faster">
                     <div class={s.tags_wrapper} >
-                      <div class={s.tag}>
+                      <RouterLink to={'/tags/create?kind=income'} class={s.tag}>
                         <div class={s.sign}>
                           <svg class={s.createTag}><use xlinkHref='#add'></use></svg>
                         </div>
                         <div class={s.name}>
                           新增
                         </div>
-                      </div>
+                      </RouterLink>
                       {incomeTags.value.map(tag =>
                         <div class={[s.tag, select.value === tag.id ? s.selected : '']}
                           onClick={() => onSelect(tag)}

@@ -1,8 +1,6 @@
-import { defineComponent, PropType, reactive, ref } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { MainLayout } from '../../layouts/MainLayout';
 import s from './Tag.module.scss';
-import { Rules, validate } from '../../shared/validate';
-import { useRouter } from 'vue-router';
 import { TagForm } from './TagForm';
 import { BackIcon } from '../../shared/BackIcon';
 export const TagCreate = defineComponent({
@@ -15,7 +13,7 @@ export const TagCreate = defineComponent({
     return () => (
       <MainLayout>{{
         title: () => '新建标签',
-        icon: () =><BackIcon class={s.svg}/>,
+        icon: () => <BackIcon class={s.svg} />,
         default: () => (
           <TagForm></TagForm>
         )
