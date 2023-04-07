@@ -6,13 +6,14 @@ import { EmojiSelect } from '../../shared/emojiSelect';
 import { Rules, validate } from '../../shared/validate';
 import s from './Tag.module.scss';
 import { TagForm } from './TagForm';
+import { BackIcon } from '../../shared/BackIcon';
 export const TagExit = defineComponent({
 
   setup: (props, context) => {
     return () => (
       <MainLayout>{{
         title: () => '新建标签',
-        icon: () => <svg class={s.svg}><use xlinkHref='#return'></use></svg>,
+        icon: () => <BackIcon class={s.svg} />,
         default: () => <>
           <TagForm />
           <div class={s.actions}>

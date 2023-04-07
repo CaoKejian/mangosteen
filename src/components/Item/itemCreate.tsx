@@ -10,6 +10,7 @@ import s from './itemCreate.module.scss';
 import 'animate.css';
 import { useRouter } from 'vue-router';
 import { Dialog } from 'vant';
+import { BackIcon } from '../../shared/BackIcon';
 export const itemCreate = defineComponent({
   props: {
     name: {
@@ -71,7 +72,7 @@ export const itemCreate = defineComponent({
       <MainLayout class={s.main}>{
         {
           title: () => '记一笔',
-          icon: () => <svg class={s.svg}><use xlinkHref='#return'></use></svg>,
+          icon: () => <BackIcon class={s.svg} />,
           default: () => <>
             <div class={s.wrapper}>
               <Tabs v-model:selected={formData.kind} class={s.tabs}>
