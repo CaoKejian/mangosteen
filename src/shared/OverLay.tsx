@@ -20,15 +20,16 @@ export const OverLay = defineComponent({
       const response = await mePromise
       me.value = response?.data.resource
     })
-    const onSignOut = async() => {
+    const onSignOut = async () => {
       await Dialog.confirm({
-        title:"提示",
-        message:"你真的要退出登录吗？"
+        title: "提示",
+        message: "你真的要退出登录吗？"
       })
       localStorage.removeItem('jwt')
     }
     return () => (<>
       <div class={s.mask} onClick={close}></div>
+
       <div class={s.overlay}>
         <section class={s.currentUser}>
           {me.value ?

@@ -19,13 +19,18 @@ const demo = defineComponent({
       type: String as PropType<string>,
       required: false
     }
+
   },
 })
 export const TimeTabsLayout = defineComponent({
   props: {
     component: {
-      type: Object as PropType<any>,
+      type: Object as PropType<typeof demo>,
       required: true
+    },
+    rerenderOnSwitchTab: {
+      type: Boolean,
+      default: false
     }
   },
   setup: (props, context) => {
@@ -75,8 +80,7 @@ export const TimeTabsLayout = defineComponent({
           icon: () => <svg class={s.svg} onClick={onClickMenu}><use xlinkHref='#menu'></use></svg>,
           default: () => <>
             <Tabs v-model:selected={refSelected.value}
-              onUpdate:selected={onSelect}
-            >
+              onUpdate:selected={onSelect} rerenderOnSelect={props.rerenderOnSwitchTab}>
               <Tab name='本月'>
                 <props.component
                   startDate={timeList[0].start.format()}
