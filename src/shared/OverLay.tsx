@@ -1,6 +1,7 @@
 import { defineComponent, PropType } from 'vue';
 import { RouterLink } from 'vue-router';
 import s from './OverLay.module.scss';
+import 'animate.css'
 export const OverLay = defineComponent({
   props: {
     onClose: {
@@ -14,7 +15,7 @@ export const OverLay = defineComponent({
     const onClickSignIn = () => { }
     return () => (<>
       <div class={s.mask} onClick={close}></div>
-      <div class={s.overlay}>
+      <div class={s.overlay} class="animate__animated animate__fadeInLeft animate__faster">
         <section class={s.currentUser} onClick={onClickSignIn}>
           <h2>未登录用户</h2>
           <p>点击登录</p>
