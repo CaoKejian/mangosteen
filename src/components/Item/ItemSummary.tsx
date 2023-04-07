@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, PropType, ref } from 'vue'
+import { defineComponent, onMounted, PropType, reactive, ref } from 'vue'
 import { Button } from '../../shared/Button'
 import { Datetime } from '../../shared/Datetime'
 import { FloatButton } from '../../shared/FloatButton'
@@ -21,6 +21,7 @@ export const ItemSummary = defineComponent({
     const hasMore = ref(false)
     const page = ref(0)
     const fetchItems = async () => {
+      if (!props.startDate || !props.endDate) return
       const response = await http.get<Resources<Item>>('/items', {
         happen_after: props.startDate,
         happen_before: props.endDate,
@@ -33,6 +34,18 @@ export const ItemSummary = defineComponent({
       page.value += 1
     }
     onMounted(fetchItems)
+    const itemsBalance = reactive({
+      expenses: 0, income: 0, balance: 0
+    })
+    onMounted(async () => {
+      if (!props.startDate || !props.endDate) return
+      const response = await http.get('/items/balance', {
+        happen_after: props.startDate,
+        happen_before: props.endDate,
+        page: page.value + 1,
+        _mock: 'itemIndexBalance'
+      })
+    })
     return () => (
       <div class={s.wrapper}>
         {items.value ? (
