@@ -33,7 +33,7 @@ export const Charts = defineComponent({
         percent: Math.round(item.amount / total * 100) + '%'
       }))
     })
-    
+
     const initLine = () => {
       if (refDiv.value === undefined) return
       var myChart = echarts.init(refDiv.value);
@@ -102,26 +102,22 @@ export const Charts = defineComponent({
           symbolSize: 5,
           showSymbol: false,
           itemStyle: {
-            normal: {
-              color: '#38D0FB',
-              lineStyle: {
-                color: "rgba(95, 52, 191,0.8)",
-                width: 1
-              },
-            }
+            color: '#38D0FB',
+            lineStyle: {
+              color: "rgba(95, 52, 191,0.8)",
+              width: 1
+            },
           },
           areaStyle: {
-            normal: {
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                offset: 0,
-                color: 'rgba(95, 52, 191,0.8)'
-              },
-              {
-                offset: 1,
-                color: 'rgba(143, 76, 215,0.2)'
-              }
-              ], false),
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+              offset: 0,
+              color: 'rgba(95, 52, 191,0.8)'
+            },
+            {
+              offset: 1,
+              color: 'rgba(143, 76, 215,0.2)'
             }
+            ], false),
           },
           data: [220, 182, 191, 234, 290, 330, 310, 201, 154, 190, 330, 410, 191, 234, 290]
         },],
@@ -206,18 +202,16 @@ export const Charts = defineComponent({
             },
             label: {
               //水球图里面的文字喝字体等设置
-              normal: {
-                formatter: function (value: number) {
-                  if (!value) {
-                    return '加载中';
-                  } else {
-                    return rate * 100 + '%';
-                  }
-                },
-                textStyle: {
-                  fontSize: 22,
-                },
+              formatter: function (value: number) {
+                if (!value) {
+                  return '加载中';
+                } else {
+                  return rate * 100 + '%';
+                }
               },
+              // textStyle: {
+              fontSize: 22,
+              // },
             },
             outline: {
               //水球图的外层边框 可设置 show:false  不显示
