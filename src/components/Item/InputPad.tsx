@@ -5,13 +5,10 @@ import { DatetimePicker, NumberKeyboard, Popup } from 'vant';
 
 export const InputPad = defineComponent({
   props: {
-    name: {
-      type: String as PropType<string>
-    }
+    happenAt: String,
+    amount: Number
   },
   setup: (props, context) => {
-    const now = new Date()
-    const refDate = ref<Date>(now)
     // 计算小数
     const appendText = (n: number | string) => {
       const nString = n.toString()
@@ -52,13 +49,18 @@ export const InputPad = defineComponent({
       { text: '.', onClick: () => { appendText('.') } },
       { text: '0', onClick: () => { appendText(0) } },
       { text: '删', onClick: () => { refAmount.value = '0' } },
-      { text: '提交', onClick: () => { } },
+      { text: '提交', onClick: () => context.emit("update:amount",
+      parseFloat(refAmount.value)*100) } ,
     ]
     const refDatePickerVisible = ref(false)
     const showDatePicker = () => refDatePickerVisible.value = true
     const hideDatePicker = () => refDatePickerVisible.value = false
-    const setDate = (date: Date) => { refDate.value = date; hideDatePicker() }
-    const refAmount = ref('0')
+    const setDate = (date: Date) => {
+      context.emit('update:happenAt',
+        date.toISOString());
+      hideDatePicker()
+    }
+    const refAmount = ref(props.amount ? (props.amount / 100).toString() : '0')
 
     return () => <>
       <div class={s.dateAndAmount}>
@@ -66,9 +68,9 @@ export const InputPad = defineComponent({
           <svg class={s.svg}>
             <use xlinkHref='#date'></use>
           </svg>
-          <span class={s.datespan} onClick={showDatePicker}>{new Time(refDate.value).format()}</span>
+          <span class={s.datespan} onClick={showDatePicker}>{new Time(props.happenAt).format()}</span>
           <Popup position='bottom' v-model:show={refDatePickerVisible.value}>
-            <DatetimePicker value={refDate.value} type="date" title="选择年月日" min-date={new Date(2023, 1, 1)} max-date={new Date()}
+            <DatetimePicker value={props.happenAt} type="date" title="选择年月日" min-date={new Date(2023, 1, 1)} max-date={new Date()}
               onConfirm={setDate} onCancel={hideDatePicker}
             />
           </Popup>

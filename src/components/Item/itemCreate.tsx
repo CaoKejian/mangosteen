@@ -16,6 +16,9 @@ export const itemCreate = defineComponent({
   },
   setup: (props, context) => {
     const refkind = ref('支出')
+    const select = ref(0)
+    const refHappenAt = ref<string>(new Date().toISOString())
+    const refAmount = ref<number>(0)
     const { tags: expensesTags, hasMore, fetchTags } = useTags((page) => {
       return http.get<Resources<Tag>>('/tags', {
         kind: 'expenses',
@@ -30,7 +33,9 @@ export const itemCreate = defineComponent({
         _mock: 'tagIndex'
       })
     })
-
+    const onSelect = (tag: Tag) => {
+      select.value = tag.id
+    }
     return () => (
       <MainLayout class={s.main}>{
         {
@@ -40,6 +45,7 @@ export const itemCreate = defineComponent({
             <div class={s.wrapper}>
               <Tabs v-model:selected={refkind.value} class={s.tabs}>
                 <Tab name='支出' >
+                  {refAmount.value}
                   <div class="animate__animated animate__fadeInLeft animate__faster">
                     <div class={s.tags_wrapper}>
                       <div class={s.tag}>
@@ -51,7 +57,9 @@ export const itemCreate = defineComponent({
                         </div>
                       </div>
                       {expensesTags.value.map(tag =>
-                        <div class={[s.tag, s.selected]}>
+                        <div class={[s.tag, select.value === tag.id ? s.selected : '']}
+                          onClick={() => onSelect(tag)}
+                        >
                           <div class={s.sign}>
                             {tag.sign}
                           </div>
@@ -81,7 +89,9 @@ export const itemCreate = defineComponent({
                         </div>
                       </div>
                       {incomeTags.value.map(tag =>
-                        <div class={[s.tag, s.selected]}>
+                        <div class={[s.tag, select.value === tag.id ? s.selected : '']}
+                          onClick={() => onSelect(tag)}
+                        >
                           <div class={s.sign}>
                             {tag.sign}
                           </div>
@@ -98,11 +108,13 @@ export const itemCreate = defineComponent({
                       }
                     </div>
                   </div>
-
                 </Tab>
               </Tabs>
               <div class={s.inputPad_wrapper}>
-                <InputPad />
+                <InputPad
+                  v-model:happenAt={refHappenAt.value}
+                  v-model:amount={refAmount.value}
+                />
               </div>
             </div>
           </>
