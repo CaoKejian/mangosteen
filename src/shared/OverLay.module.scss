@@ -46,10 +46,25 @@ span{
   background: var(--overlay-user-bg);
   color: var(--overlay-user-text);
   letter-spacing: 2px;
-  >p{
+  &_email{
+    >h2{
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    >p{
+      font-size: 16px;
+      color: #cea1ff;
+      margin-top: 6px;
+    }
+  }
+  a{
+   color: var(--overlay-user-text);
+   >p{
     font-size: 16px;
     color: #cea1ff;
     margin-top: 6px;
+  }
   }
 }
 .action {

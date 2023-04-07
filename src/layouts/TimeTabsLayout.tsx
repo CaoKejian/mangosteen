@@ -24,7 +24,7 @@ const demo = defineComponent({
 export const TimeTabsLayout = defineComponent({
   props: {
     component: {
-      type: Object as PropType<typeof demo>,
+      type: Object as PropType<any>,
       required: true
     }
   },
