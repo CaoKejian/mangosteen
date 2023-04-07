@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { defineComponent, onMounted, onUpdated, PropType, ref, watch } from 'vue';
+import { defineComponent, onMounted, onUpdated, PropType, reactive, ref, watch } from 'vue';
 import { MainLayout } from '../../layouts/MainLayout';
 import { Button } from '../../shared/Button';
 import { http } from '../../shared/Http';
@@ -8,6 +8,8 @@ import { useTags } from '../../shared/useTags';
 import { InputPad } from './InputPad';
 import s from './itemCreate.module.scss';
 import 'animate.css';
+import { useRouter } from 'vue-router';
+import { Dialog } from 'vant';
 export const itemCreate = defineComponent({
   props: {
     name: {
@@ -15,10 +17,19 @@ export const itemCreate = defineComponent({
     }
   },
   setup: (props, context) => {
-    const refkind = ref('支出')
+    const formData = reactive<{
+      kind: string
+      tags_id: number[]
+      amount: number
+      happen_at: string
+    }
+    >({
+      kind: "支出",
+      tags_id: [],
+      amount: 0,
+      happen_at: new Date().toISOString()
+    })
     const select = ref(0)
-    const refHappenAt = ref<string>(new Date().toISOString())
-    const refAmount = ref<number>(0)
     const { tags: expensesTags, hasMore, fetchTags } = useTags((page) => {
       return http.get<Resources<Tag>>('/tags', {
         kind: 'expenses',
@@ -35,6 +46,26 @@ export const itemCreate = defineComponent({
     })
     const onSelect = (tag: Tag) => {
       select.value = tag.id
+      formData.tags_id = [tag.id]
+    }
+    const router = useRouter()
+    const onSubmit = async () => {
+      await http.post<Resource<Item>>('/items', formData,
+        { params: { _mock: 'itemCreate' } })
+        .catch(error => {
+          if (error.response.status === 422) {
+            Dialog.alert({
+              title: "出错",
+              message: Object.values(error.response.data.errors).join('\n')
+            })
+          }
+          throw error
+        })
+      Dialog.alert({
+        title: "提示",
+        message: '保存成功'
+      })
+      router.push("/items")
     }
     return () => (
       <MainLayout class={s.main}>{
@@ -43,9 +74,8 @@ export const itemCreate = defineComponent({
           icon: () => <svg class={s.svg}><use xlinkHref='#return'></use></svg>,
           default: () => <>
             <div class={s.wrapper}>
-              <Tabs v-model:selected={refkind.value} class={s.tabs}>
+              <Tabs v-model:selected={formData.kind} class={s.tabs}>
                 <Tab name='支出' >
-                  {refAmount.value}
                   <div class="animate__animated animate__fadeInLeft animate__faster">
                     <div class={s.tags_wrapper}>
                       <div class={s.tag}>
@@ -112,8 +142,9 @@ export const itemCreate = defineComponent({
               </Tabs>
               <div class={s.inputPad_wrapper}>
                 <InputPad
-                  v-model:happenAt={refHappenAt.value}
-                  v-model:amount={refAmount.value}
+                  v-model:happenAt={formData.happen_at}
+                  v-model:amount={formData.amount}
+                  onSubmit={onSubmit}
                 />
               </div>
             </div>

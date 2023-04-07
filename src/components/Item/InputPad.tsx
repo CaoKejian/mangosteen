@@ -6,7 +6,10 @@ import { DatetimePicker, NumberKeyboard, Popup } from 'vant';
 export const InputPad = defineComponent({
   props: {
     happenAt: String,
-    amount: Number
+    amount: Number,
+    onSubmit: {
+      type: Function as PropType<() => void>
+    }
   },
   setup: (props, context) => {
     // 计算小数
@@ -49,8 +52,13 @@ export const InputPad = defineComponent({
       { text: '.', onClick: () => { appendText('.') } },
       { text: '0', onClick: () => { appendText(0) } },
       { text: '删', onClick: () => { refAmount.value = '0' } },
-      { text: '提交', onClick: () => context.emit("update:amount",
-      parseFloat(refAmount.value)*100) } ,
+      {
+        text: '提交', onClick: () => {
+          context.emit("update:amount",
+            parseFloat(refAmount.value) * 100)
+            props.onSubmit?.()
+        }
+      },
     ]
     const refDatePickerVisible = ref(false)
     const showDatePicker = () => refDatePickerVisible.value = true
