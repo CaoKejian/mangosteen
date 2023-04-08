@@ -8,9 +8,14 @@ faker.setLocale('zh_CN');
 export const mockItemSummary: Mock = config => {
   return [200, {
     "groups": [
-      { "happen_at": "2023-04-01T00:00:00.000+0800", "amount": 100 },
+      { "happen_at": "2023-04-01T00:00:00.000+0800", "amount": 200 },
+      { "happen_at": "2023-04-02T00:00:00.000+0800", "amount": 250 },
+      { "happen_at": "2023-04-03T00:00:00.000+0800", "amount": 200 },
       { "happen_at": "2023-04-04T00:00:00.000+0800", "amount": 300 },
-      { "happen_at": "2023-04-07T00:00:00.000+0800", "amount": 200 }
+      { "happen_at": "2023-04-05T00:00:00.000+0800", "amount": 200 },
+      { "happen_at": "2023-04-06T00:00:00.000+0800", "amount": 500 },
+      { "happen_at": "2023-04-07T00:00:00.000+0800", "amount": 600 },
+      { "happen_at": "2023-04-08T00:00:00.000+0800", "amount": 300 }
     ],
     "summary": 600
   }]

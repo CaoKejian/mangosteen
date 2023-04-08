@@ -69,13 +69,16 @@ export const LineChart = defineComponent({
     data: {
       type: Array as PropType<[string, number][]>,
       required: true,
+    },
+    data1: {
+      type: Array as PropType<[string, number][]>,
+      required: true,
     }
   },
   setup: (props, context) => {
     const refDiv = ref<HTMLDivElement>()
     let chart: echarts.ECharts | undefined = undefined
     onMounted(async () => {
-      console.log(props.data);
       if (refDiv.value === undefined) { return }
       chart = echarts.init(refDiv.value)
       chart.setOption({
@@ -87,7 +90,6 @@ export const LineChart = defineComponent({
           showSymbol: false,
           data: props.data,
           itemStyle: {
-            // color: '#38D0FB',
             lineStyle: {
               color: "rgba(95, 52, 191,0.8)",
               width: 1

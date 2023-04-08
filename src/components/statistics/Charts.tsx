@@ -28,11 +28,10 @@ export const Charts = defineComponent({
     const kind = ref('expenses')
     const data1 = ref<Data1>([])
     const betterData1 = computed<[string, number][]>(() => {
-      if(!props.startDate || !props.endDate) { return [] }
-      
+      if (!props.startDate || !props.endDate) { return [] }
       const diff = new Date(props.endDate).getTime() - new Date(props.startDate).getTime()
       const n = diff / DAY + 1
-      return Array.from({length: n}).map((_, i)=>{
+      return Array.from({ length: n }).map((_, i) => {
         const time = new Time(props.startDate + 'T00:00:00.000+0800').add(i, 'day').getTimestamp()
         const item = data1.value[0]
         const amount = (item && new Date(item.happen_at).getTime() === time)
@@ -40,6 +39,11 @@ export const Charts = defineComponent({
           : 0
         return [new Date(time).toISOString(), amount]
       })
+    })
+    const columnarData = computed<[string, number][]>(() => {
+      return data1.value.map(item =>
+        [item.happen_at, item.amount] as [string, number]
+      )
     })
     const data3 = reactive([
       { tag: { id: 1, name: '房租', sign: 'x' }, amount: 3000 },
@@ -181,7 +185,7 @@ export const Charts = defineComponent({
             { value: 'income', text: '收入' }
           ]} v-model={kind.value}
         ></FormItem>
-        <LineChart data={betterData1.value} />
+        <LineChart data={betterData1.value} data1={columnarData.value} />
         <div ref={refDiv2} class={s.demo2}></div>
         <div ref={refDiv3} class={s.demo3}></div>
         <div class={s.demo3}>
