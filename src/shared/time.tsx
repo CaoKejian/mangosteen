@@ -38,10 +38,10 @@ export class Time {
       .replace(/SSS/, msecond.toString().padStart(3, '0'))
   }
   nowDay() {
-    return new Time(new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate() - 1, 0, 0, 0, 0));
+    return new Time(new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate() - 1));
   }
   lastDay() {
-    return new Time(new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate(), 0, 0, 0, 0));
+    return new Time(new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate() - 1));
   }
   firstDayOfMonth() {
     return new Time(new Date(this.date.getFullYear(), this.date.getMonth(), 1, 0, 0, 0));
