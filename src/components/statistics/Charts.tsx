@@ -6,6 +6,8 @@ import 'echarts-liquidfill';
 import { http } from '../../shared/Http';
 import { LineChart } from '../echarts/LineChart';
 import { Time } from '../../shared/time';
+import { PieChart } from '../echarts/PieChart';
+import { BallChart } from '../echarts/BallChart';
 
 type Data1Item = { happen_at: string, amount: number }
 type Data1 = Data1Item[]
@@ -41,18 +43,11 @@ export const Charts = defineComponent({
         return [new Date(time).toISOString(), amount]
       })
     })
-    const columnarData = computed<[string, number][]>(() => {
-      return data1.value.map(item =>
-        [item.happen_at, item.amount] as [string, number]
-      )
-      // return data1.value.slice(-2)[0]
-    })
     const data3 = reactive([
       { tag: { id: 1, name: '房租', sign: 'x' }, amount: 3000 },
       { tag: { id: 2, name: '吃饭', sign: 'x' }, amount: 1000 },
       { tag: { id: 3, name: '娱乐', sign: 'x' }, amount: 900 },
     ])
-
     const betterData3 = computed(() => {
       const total = data3.reduce((sum, item) => sum + item.amount, 0)
       return data3.map(item => ({
@@ -60,112 +55,6 @@ export const Charts = defineComponent({
         percent: Math.round(item.amount / total * 100) + '%'
       }))
     })
-    const initPie = () => {
-      if (refDiv2.value === undefined) return
-      var myChart = echarts.init(refDiv2.value);
-      const option = {
-        grid: {
-          left: '0%',
-          right: '0',
-          top: '0%',
-          bottom: '0%',
-          containLabel: true
-        },
-        series: [
-          {
-            name: 'Access From',
-            type: 'pie',
-            radius: '80%',
-            data: [
-              { value: 1048, name: 'Search Engine' },
-              { value: 735, name: 'Direct' },
-              { value: 580, name: 'Email' },
-              { value: 484, name: 'Union Ads' },
-              { value: 300, name: 'Video Ads' }
-            ],
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
-            }
-          }
-        ]
-      }
-      myChart.setOption(option)
-    }
-    const initball = () => {
-      const rate = 0.5
-      if (refDiv3.value === undefined) return
-      var myChart = echarts.init(refDiv3.value);
-      const option = {
-        backgroundColor: '#fff',
-        width: '100%',
-        height: '100%',
-        title: [{
-          text: "本月支出占比",
-          left: "center",
-          bottom: "20%",
-          textStyle: {
-            fontWeight: "bold",
-            fontSize: 14,
-            color: "#fff",
-          },
-        },
-        ],
-        series: [
-          {
-            color: ['#cbb6eb', '#753fca'], //波浪的颜色
-            type: 'liquidFill',
-            radius: '90%',
-            data: [
-              //波浪的高度占比 (第一个是浅色的 : 在传过来的数据上加上一点作为展示效果,第二个用传过来的数据)
-              {
-                value: rate + 0.05,
-              },
-              {
-                value: rate,
-              },
-            ],
-            center: ['50%', '50%'], //图在整个画布的位置
-            backgroundStyle: {
-              color: 'white',
-              borderColor: '#8f4cd7', //边框颜色
-              borderWidth: 2, //边框粗细
-              shadowColor: '#8f4cd7', //阴影颜色
-              shadowBlur: 5, //阴影范围
-            },
-            label: {
-              //水球图里面的文字喝字体等设置
-              formatter: function (value: number) {
-                if (!value) {
-                  return '加载中';
-                } else {
-                  return rate * 100 + '%';
-                }
-              },
-              // textStyle: {
-              fontSize: 22,
-              // },
-            },
-            outline: {
-              //水球图的外层边框 可设置 show:false  不显示
-              itemStyle: {
-                borderColor: '#DCDCDC',
-                borderWidth: 3,
-              },
-              borderDistance: 0,
-            },
-            itemStyle: {
-              opacity: 0.95,
-              shadowColor: 'rgba(0,0,0,0)',
-            },
-          },
-        ],
-      }
-      myChart.setOption(option)
-    }
 
     onMounted(async () => {
       // 问题出在这里，因为没有筛选查找！
@@ -175,10 +64,8 @@ export const Charts = defineComponent({
         kind: kind.value,
         _mock: 'itemSummary'
       })
-
+      //  data1.value.slice(-2)[0]
       data1.value = response.data.groups
-      // data1.value.slice(-2)[0]
-      initPie(), initball()
     })
     onMounted(() => { })
     return () => (
@@ -190,8 +77,9 @@ export const Charts = defineComponent({
             { value: 'income', text: '收入' }
           ]} v-model={kind.value}
         ></FormItem>
-        <LineChart data={betterData1.value} data1={columnarData.value} />
-        <div ref={refDiv2} class={s.demo2}></div>
+        <LineChart data={betterData1.value} />
+        <PieChart />
+        <BallChart />
         <div ref={refDiv3} class={s.demo3}></div>
         <div class={s.demo3}>
           {betterData3.value.map(({ tag, amount, percent }) => {

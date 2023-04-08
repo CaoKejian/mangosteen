@@ -70,10 +70,6 @@ export const LineChart = defineComponent({
       type: Array as PropType<[string, number][]>,
       required: true,
     },
-    data1: {
-      type: Array as PropType<[string, number][]>,
-      required: true,
-    }
   },
   setup: (props, context) => {
     const refDiv = ref<HTMLDivElement>()
