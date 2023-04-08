@@ -5,17 +5,16 @@ type Mock = (config: AxiosRequestConfig) => [number, any]
 
 faker.setLocale('zh_CN');
 
-export const mockItemSummary: Mock = (config) => {
+export const mockItemSummary: Mock = config => {
   return [200, {
-    "groups":[
-      {"happen_at":"2018-06-18T00:00:00.000+0800","amount":100},
-      {"happen_at":"2018-06-22T00:00:00.000+0800","amount":200},
-      {"happen_at":"2018-06-29T00:00:00.000+0800","amount":300}
+    "groups": [
+      { "happen_at": "2023-04-01T00:00:00.000+0800", "amount": 100 },
+      { "happen_at": "2023-04-04T00:00:00.000+0800", "amount": 300 },
+      { "happen_at": "2023-04-07T00:00:00.000+0800", "amount": 200 }
     ],
-    "summary":900
+    "summary": 600
   }]
 }
-
 export const mockItemIndexBalance: Mock = (config) => {
   return [200, {
     expenses: 9900,
@@ -40,14 +39,14 @@ export const mockItemIndex: Mock = (config) => {
     sign: faker.internet.emoji(),
     kind: 'expenses',
     ...attrs
-  }) 
+  })
   const createItem = (n = 1, attrs?: any) =>
     Array.from({ length: n }).map(() => ({
       id: createdId(),
       user_id: createdId(),
       amount: Math.floor(Math.random() * 10000),
       tags_id: [createdId()],
-      tags:[createTag()],
+      tags: [createTag()],
       happen_at: faker.date.past().toISOString(),
       kind: config.params.kind,
     }))

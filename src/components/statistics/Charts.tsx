@@ -3,12 +3,13 @@ import { FormItem } from '../../shared/Form';
 import s from './Charts.module.scss';
 import * as echarts from 'echarts';
 import 'echarts-liquidfill';
-import { Time } from '../../shared/time';
-import { getMoney } from '../../shared/Money';
 import { http } from '../../shared/Http';
+import { LineChart } from '../echarts/LineChart';
+import { Time } from '../../shared/time';
 
 type Data1Item = { happen_at: string, amount: number }
 type Data1 = Data1Item[]
+const DAY = 24 * 3600 * 1000
 export const Charts = defineComponent({
   props: {
     startDate: {
@@ -22,54 +23,35 @@ export const Charts = defineComponent({
   },
 
   setup: (props, context) => {
-    const category = ref('expenses')
-    const refDiv = ref<HTMLDivElement>()
     const refDiv2 = ref<HTMLDivElement>()
     const refDiv3 = ref<HTMLDivElement>()
+    const kind = ref('expenses')
     const data1 = ref<Data1>([])
-    const betterData1 = computed(() => {
-      data1.value.map(item =>
-        [item.happen_at, item.amount] as [string, number]
-      )
+    const betterData1 = computed<[string, number][]>(() => {
+      if (!props.startDate || !props.endDate) {
+        return []
+      }
+      const array = []
+      const diff = new Date(props.endDate).getTime() - new Date(props.startDate).getTime()
+      const n = diff / DAY + 1
+      let data1Index = 0
+      for (let i = 0; i < n; i++) {
+        const time = new Time(props.startDate + 'T00:00:00.000+0800').add(i, 'day').getTimestamp()
+        if (data1.value[data1Index] && new Date(data1.value[data1Index].happen_at).getTime() === time) {
+          array.push([new Date(time).toISOString(), data1.value[data1Index].amount])
+          data1Index += 1
+        } else {
+          array.push([new Date(time).toISOString(), 0])
+        }
+      }
+      return array as [string, number][]
     })
     const data3 = reactive([
       { tag: { id: 1, name: '房租', sign: 'x' }, amount: 3000 },
       { tag: { id: 2, name: '吃饭', sign: 'x' }, amount: 1000 },
       { tag: { id: 3, name: '娱乐', sign: 'x' }, amount: 900 },
     ])
-    const data = [
-      ['2018-01-01T00:00:00.000+0800', 150],
-      ['2018-01-02T00:00:00.000+0800', 230],
-      ['2018-01-03T00:00:00.000+0800', 224],
-      ['2018-01-04T00:00:00.000+0800', 218],
-      ['2018-01-05T00:00:00.000+0800', 135],
-      ['2018-01-06T00:00:00.000+0800', 147],
-      ['2018-01-07T00:00:00.000+0800', 260],
-      ['2018-01-08T00:00:00.000+0800', 300],
-      ['2018-01-09T00:00:00.000+0800', 200],
-      ['2018-01-10T00:00:00.000+0800', 300],
-      ['2018-01-11T00:00:00.000+0800', 400],
-      ['2018-01-12T00:00:00.000+0800', 500],
-      ['2018-01-13T00:00:00.000+0800', 400],
-      ['2018-01-14T00:00:00.000+0800', 300],
-      ['2018-01-15T00:00:00.000+0800', 200],
-      ['2018-01-16T00:00:00.000+0800', 100],
-      ['2018-01-17T00:00:00.000+0800', 200],
-      ['2018-01-18T00:00:00.000+0800', 300],
-      ['2018-01-19T00:00:00.000+0800', 400],
-      ['2018-01-20T00:00:00.000+0800', 500],
-      ['2018-01-21T00:00:00.000+0800', 600],
-      ['2018-01-22T00:00:00.000+0800', 700],
-      ['2018-01-23T00:00:00.000+0800', 800],
-      ['2018-01-24T00:00:00.000+0800', 900],
-      ['2018-01-25T00:00:00.000+0800', 1000],
-      ['2018-01-26T00:00:00.000+0800', 1100],
-      ['2018-01-27T00:00:00.000+0800', 1200],
-      ['2018-01-28T00:00:00.000+0800', 1300],
-      ['2018-01-29T00:00:00.000+0800', 1400],
-      ['2018-01-30T00:00:00.000+0800', 1500],
-      ['2018-01-31T00:00:00.000+0800', 1600],
-    ]
+
     const betterData3 = computed(() => {
       const total = data3.reduce((sum, item) => sum + item.amount, 0)
       return data3.map(item => ({
@@ -77,116 +59,22 @@ export const Charts = defineComponent({
         percent: Math.round(item.amount / total * 100) + '%'
       }))
     })
-
-    const initLine = () => {
-      if (refDiv.value === undefined) return
-      var myChart = echarts.init(refDiv.value);
-      const option = {
-        grid: [{ left: 16, top: 20, right: 16, bottom: 20 }],
-        tooltip: {
-          show: true,
-          trigger: 'axis',
-          axisPointer: {
-            type: 'line',
-            lineStyle: {
-              color: '#6638c3'
-            },
-          },
-          formatter: ([item]: any) => {
-            const [x, y] = item.data
-            return `${new Time(new Date(x)).format('YYYY年MM月DD日')} ￥${getMoney(y)}`
-          },
-        },
-        xAxis: [{
-          type: 'category',
-          boundaryGap: ['3%', '0%'],
-          axisLabel: {
-            formatter: (value: string) => new Time(new Date(value)).format('MM-DD'),
-          },
-          axisLine: {
-            show: true
-          },
-          splitLine: {
-            show: false
-          },
-          axisTick: {
-            show: true,
-            alignWithLabel: true,
-          },
-        }],
-        yAxis: [{
-          type: 'value',
-          name: '',
-          padding: 5,
-          // max: 1000,
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: 'rgba(255, 255, 255, 0.2)',
-              type: 'solid'
-            }
-          },
-          axisLine: {
-            show: false
-          },
-          axisLabel: {
-            show: false,
-            margin: 10,
-          },
-          axisTick: {
-            show: false
-          }
-        },
-
-        ],
-        series: [{
-          type: 'line',
-          smooth: true,
-          symbolSize: 5,
-          showSymbol: false,
-          data: betterData1,
-          itemStyle: {
-            // color: '#38D0FB',
-            lineStyle: {
-              color: "rgba(95, 52, 191,0.8)",
-              width: 1
-            },
-          },
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-              offset: 0,
-              color: 'rgba(95, 52, 191,0.8)'
-            },
-            {
-              offset: 1,
-              color: 'rgba(143, 76, 215,0.2)'
-            }
-            ], false),
-          },
-
-        },],
-      };
-      myChart.setOption({
-        ...option,
-        series:[{data:betterData1}]
-      })
-    }
     const initPie = () => {
       if (refDiv2.value === undefined) return
       var myChart = echarts.init(refDiv2.value);
       const option = {
         grid: {
-          left: '0',
+          left: '0%',
           right: '0',
-          top: '10%',
-          bottom: '25%',
+          top: '0%',
+          bottom: '0%',
           containLabel: true
         },
         series: [
           {
             name: 'Access From',
             type: 'pie',
-            radius: '50%',
+            radius: '80%',
             data: [
               { value: 1048, name: 'Search Engine' },
               { value: 735, name: 'Direct' },
@@ -280,10 +168,13 @@ export const Charts = defineComponent({
 
     onMounted(async () => {
       const response = await http.get<{ groups: Data1, summary: number }>('/items/summary', {
-        _mock: "itemSummary"
+        happen_after: props.startDate,
+        happen_before: props.endDate,
+        kind: kind.value,
+        _mock: 'itemSummary'
       })
       data1.value = response.data.groups
-      initLine(), initPie(), initball()
+      initPie(), initball()
     })
     onMounted(() => { })
     return () => (
@@ -293,9 +184,9 @@ export const Charts = defineComponent({
           options={[
             { value: 'expenses', text: '支出' },
             { value: 'income', text: '收入' }
-          ]} v-model={category.value}
+          ]} v-model={kind.value}
         ></FormItem>
-        <div ref={refDiv} class={s.demo}></div>
+        <LineChart data={betterData1.value} />
         <div ref={refDiv2} class={s.demo2}></div>
         <div ref={refDiv3} class={s.demo3}></div>
         <div class={s.demo3}>

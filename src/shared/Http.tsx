@@ -62,7 +62,7 @@ const mock = (response: AxiosResponse) => {
     case 'itemIndex':
       [response.status, response.data] = mockItemIndex(response.config)
       return true
-    case "itemSummary":
+    case 'itemSummary':
       [response.status, response.data] = mockItemSummary(response.config)
       return true
   }
