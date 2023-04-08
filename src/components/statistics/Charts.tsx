@@ -34,6 +34,7 @@ export const Charts = defineComponent({
       return Array.from({ length: n }).map((_, i) => {
         const time = new Time(props.startDate + 'T00:00:00.000+0800').add(i, 'day').getTimestamp()
         const item = data1.value[0]
+
         const amount = (item && new Date(item.happen_at).getTime() === time)
           ? data1.value.shift()!.amount
           : 0
@@ -44,6 +45,7 @@ export const Charts = defineComponent({
       return data1.value.map(item =>
         [item.happen_at, item.amount] as [string, number]
       )
+      // return data1.value.slice(-2)[0]
     })
     const data3 = reactive([
       { tag: { id: 1, name: '房租', sign: 'x' }, amount: 3000 },
@@ -166,13 +168,16 @@ export const Charts = defineComponent({
     }
 
     onMounted(async () => {
+      // 问题出在这里，因为没有筛选查找！
       const response = await http.get<{ groups: Data1, summary: number }>('/items/summary', {
         happen_after: props.startDate,
         happen_before: props.endDate,
         kind: kind.value,
         _mock: 'itemSummary'
       })
+
       data1.value = response.data.groups
+      // data1.value.slice(-2)[0]
       initPie(), initball()
     })
     onMounted(() => { })

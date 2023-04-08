@@ -41,7 +41,7 @@ export class Time {
     return new Time(new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate() - 1));
   }
   lastDay() {
-    return new Time(new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate() - 1));
+    return new Time(new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate() - 0));
   }
   firstDayOfMonth() {
     return new Time(new Date(this.date.getFullYear(), this.date.getMonth(), 1, 0, 0, 0));

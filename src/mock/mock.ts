@@ -17,7 +17,7 @@ export const mockItemSummary: Mock = config => {
       { "happen_at": "2023-04-07T00:00:00.000+0800", "amount": 600 },
       { "happen_at": "2023-04-08T00:00:00.000+0800", "amount": 300 }
     ],
-    "summary": 600
+    "summary": 2550
   }]
 }
 export const mockItemIndexBalance: Mock = (config) => {

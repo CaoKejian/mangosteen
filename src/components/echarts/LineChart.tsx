@@ -77,12 +77,8 @@ export const LineChart = defineComponent({
   },
   setup: (props, context) => {
     const refDiv = ref<HTMLDivElement>()
-    const refDiv2 = ref<HTMLDivElement>()
     let chart: echarts.ECharts | undefined = undefined
-    let chart2: echarts.ECharts | undefined = undefined
     onMounted(async () => {
-      console.log(props.data1);
-
       if (refDiv.value === undefined) { return }
       chart = echarts.init(refDiv.value)
       chart.setOption({
