@@ -42,8 +42,15 @@
     >.fake{
       visibility: hidden;
     }
+ 
   }
 }
 h2{
   margin-top: 10px;
+}
+
+span{
+  >a{
+    color: var(--welcome-text);
+  }
 }
