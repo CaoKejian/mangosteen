@@ -11,6 +11,8 @@ import { BallChart } from '../echarts/BallChart';
 
 type Data1Item = { happen_at: string, amount: number }
 type Data1 = Data1Item[]
+type Data2Item = { tag_id: number; tag: Tag; amount: number }
+type Data2 = Data2Item[]
 const DAY = 24 * 3600 * 1000
 export const Charts = defineComponent({
   props: {
@@ -43,6 +45,18 @@ export const Charts = defineComponent({
         return [new Date(time).toISOString(), amount]
       })
     })
+    onMounted(async () => {
+      // 问题出在这里，因为没有筛选查找！
+      const response = await http.get<{ groups: Data1, summary: number }>('/items/summary', {
+        happen_after: props.startDate,
+        happen_before: props.endDate,
+        kind: kind.value,
+        group_by: 'happen_at',
+        _mock: 'itemSummary'
+      })
+      //  data1.value.slice(-2)[0]
+      data1.value = response.data.groups
+    })
     const data3 = reactive([
       { tag: { id: 1, name: '房租', sign: 'x' }, amount: 3000 },
       { tag: { id: 2, name: '吃饭', sign: 'x' }, amount: 1000 },
@@ -56,18 +70,24 @@ export const Charts = defineComponent({
       }))
     })
 
+    const data2 = ref<Data2>([])
+
+    const betterData2 = computed<{ name: string; value: number }[]>(() =>
+      data2.value.map((item) => ({
+        name: item.tag.name,
+        value: item.amount
+      }))
+    )
     onMounted(async () => {
-      // 问题出在这里，因为没有筛选查找！
-      const response = await http.get<{ groups: Data1, summary: number }>('/items/summary', {
+      const response = await http.get<{ groups: Data2; summary: number }>('/items/summary', {
         happen_after: props.startDate,
         happen_before: props.endDate,
         kind: kind.value,
+        group_by: 'tag_id',
         _mock: 'itemSummary'
       })
-      //  data1.value.slice(-2)[0]
-      data1.value = response.data.groups
+      data2.value = response.data.groups
     })
-    onMounted(() => { })
     return () => (
       <div class={s.wrapepr}>
         <FormItem label='类型' type='select'
@@ -78,7 +98,7 @@ export const Charts = defineComponent({
           ]} v-model={kind.value}
         ></FormItem>
         <LineChart data={betterData1.value} />
-        <PieChart />
+        <PieChart data={betterData2.value} />
         <BallChart />
         <div ref={refDiv3} class={s.demo3}></div>
         <div class={s.demo3}>
