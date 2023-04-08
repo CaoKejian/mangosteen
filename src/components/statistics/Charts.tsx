@@ -5,7 +5,10 @@ import * as echarts from 'echarts';
 import 'echarts-liquidfill';
 import { Time } from '../../shared/time';
 import { getMoney } from '../../shared/Money';
+import { http } from '../../shared/Http';
 
+type Data1Item = { happen_at: string, amount: number }
+type Data1 = Data1Item[]
 export const Charts = defineComponent({
   props: {
     startDate: {
@@ -23,6 +26,12 @@ export const Charts = defineComponent({
     const refDiv = ref<HTMLDivElement>()
     const refDiv2 = ref<HTMLDivElement>()
     const refDiv3 = ref<HTMLDivElement>()
+    const data1 = ref<Data1>([])
+    const betterData1 = computed(() => {
+      data1.value.map(item =>
+        [item.happen_at, item.amount] as [string, number]
+      )
+    })
     const data3 = reactive([
       { tag: { id: 1, name: '房租', sign: 'x' }, amount: 3000 },
       { tag: { id: 2, name: '吃饭', sign: 'x' }, amount: 1000 },
@@ -135,7 +144,7 @@ export const Charts = defineComponent({
           smooth: true,
           symbolSize: 5,
           showSymbol: false,
-          data: data,
+          data: betterData1,
           itemStyle: {
             // color: '#38D0FB',
             lineStyle: {
@@ -159,6 +168,7 @@ export const Charts = defineComponent({
       };
       myChart.setOption({
         ...option,
+        series:[{data:betterData1}]
       })
     }
     const initPie = () => {
@@ -268,11 +278,14 @@ export const Charts = defineComponent({
       myChart.setOption(option)
     }
 
-    onMounted(() => {
-      initLine()
-      initPie()
-      initball()
+    onMounted(async () => {
+      const response = await http.get<{ groups: Data1, summary: number }>('/items/summary', {
+        _mock: "itemSummary"
+      })
+      data1.value = response.data.groups
+      initLine(), initPie(), initball()
     })
+    onMounted(() => { })
     return () => (
       <div class={s.wrapepr}>
         <FormItem label='类型' type='select'
