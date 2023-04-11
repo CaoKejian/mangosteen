@@ -7,7 +7,7 @@ faker.setLocale('zh_CN');
 
 
 export const mockItemSummary: Mock = (config) => {
-  if (config.params.group_by === 'happend_at') {
+  if (config.params.group_by === 'happen_at') {
     return [
       200,
       {

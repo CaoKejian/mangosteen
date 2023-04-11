@@ -56,6 +56,8 @@ export const Charts = defineComponent({
       })
       //  data1.value.slice(-2)[0]
       data1.value = response.data.groups
+      console.log(response.data.groups);
+
     })
     const data3 = reactive([
       { tag: { id: 1, name: '房租', sign: 'x' }, amount: 3000 },
@@ -69,9 +71,8 @@ export const Charts = defineComponent({
         percent: Math.round(item.amount / total * 100) + '%'
       }))
     })
-
     const data2 = ref<Data2>([])
-
+    
     const betterData2 = computed<{ name: string; value: number }[]>(() =>
       data2.value.map((item) => ({
         name: item.tag.name,
