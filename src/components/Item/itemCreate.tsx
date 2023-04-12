@@ -34,6 +34,7 @@ export const itemCreate = defineComponent({
       return http.get<Resources<Tag>>('/tags', {
         kind: 'expenses',
         page: page + 1,
+      }, {
         _mock: 'tagIndex'
       })
     })
@@ -41,6 +42,7 @@ export const itemCreate = defineComponent({
       return http.get<Resources<Tag>>('/tags', {
         kind: 'income',
         page: page + 1,
+      }, {
         _mock: 'tagIndex'
       })
     })
@@ -51,7 +53,7 @@ export const itemCreate = defineComponent({
     const router = useRouter()
     const onSubmit = async () => {
       await http.post<Resource<Item>>('/items', formData,
-        { params: { _mock: 'itemCreate' } })
+        { _mock: 'itemCreate' })
         .catch(error => {
           if (error.response.status === 422) {
             Dialog.alert({

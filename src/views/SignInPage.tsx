@@ -31,7 +31,6 @@ export const SignInPage = defineComponent({
     const router = useRouter() //两种方式存储路由
     const route = useRoute()
     const onSubmit = async (e: Event) => {
-      console.log(1);
       e.preventDefault()
       Object.assign(errors, {
         email: [], code: []
@@ -70,8 +69,10 @@ export const SignInPage = defineComponent({
     }
     const onClickSendValidationCode = async () => {
       on()
-      const response = await http
-        .post('/validation_codes', { email: formData.email })
+      await http
+        .post('/validation_codes', { email: formData.email},{
+          _autoLoading: true
+        })
         .catch(onError)
         .finally(off)
       //成功
@@ -91,7 +92,7 @@ export const SignInPage = defineComponent({
               <Form onSubmit={onSubmit}>
                 <FormItem label='邮箱地址' type='text' v-model={formData.email}
                   placeholder='请输入邮箱，然后点击发送验证码' error={errors.email?.[0] ?? '　'}></FormItem>
-                <FormItem ref={refValidationCode} countForm={1} label='验证码' type='validationcode'
+                <FormItem ref={refValidationCode} countForm={3} label='验证码' type='validationcode'
                   placeholder='请输入六位数字'
                   disabled={refDisabled.value}
                   onClick={onClickSendValidationCode}

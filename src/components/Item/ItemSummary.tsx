@@ -26,6 +26,7 @@ export const ItemSummary = defineComponent({
         happen_after: props.startDate,
         happen_before: props.endDate,
         page: page.value + 1,
+      }, {
         _mock: 'itemIndex',
       })
       const { resources, pager } = response.data
@@ -46,21 +47,22 @@ export const ItemSummary = defineComponent({
     const itemsBalance = reactive({
       expenses: 0, income: 0, balance: 0
     })
-    const fetchItemsBalance =async()=>{
+    const fetchItemsBalance = async () => {
       if (!props.startDate || !props.endDate) return
       const response = await http.get('/items/balance', {
         happen_after: props.startDate,
         happen_before: props.endDate,
         page: page.value + 1,
+      }, {
         _mock: 'itemIndexBalance'
-      })      
+      })
     }
     onMounted(fetchItemsBalance)
     watch(() => [props.startDate, props.endDate], () => {
-     Object.assign(itemsBalance,{
+      Object.assign(itemsBalance, {
         expenses: 0, income: 0, balance: 0
-     })
-     fetchItemsBalance()
+      })
+      fetchItemsBalance()
     })
     return () => (
       <div class={s.wrapper}>
