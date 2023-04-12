@@ -16,16 +16,20 @@ export const TagEdit = defineComponent({
         <div>id 不存在</div>
       }
     }
+    const onError = () => {
+      Dialog.alert({ title: "提示", message: '刪除失敗' })
+    }
     const router = useRouter()
     const onDelete = async (options?: { withItems?: boolean }) => {
       await Dialog.confirm({
         title: "提示",
         message: "确认删除吗？"
       })
-      router.back()
       await http.delete(`/tags/${numberId}`, {
         withItems: options?.withItems ? 'true' : 'false'
-      })
+      }, { _autoLoading: true })
+        .catch(onError)
+      router.back()
     }
     return () => (
       <MainLayout>{{

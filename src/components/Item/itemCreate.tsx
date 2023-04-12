@@ -35,7 +35,8 @@ export const itemCreate = defineComponent({
         kind: 'expenses',
         page: page + 1,
       }, {
-        _mock: 'tagIndex'
+        _mock: 'tagIndex',
+        _autoLoading:true
       })
     })
     const { tags: incomeTags, hasMore: hasMore2, fetchTags: fetchTags2 } = useTags((page) => {
@@ -53,7 +54,7 @@ export const itemCreate = defineComponent({
     const router = useRouter()
     const onSubmit = async () => {
       await http.post<Resource<Item>>('/items', formData,
-        { _mock: 'itemCreate' })
+        { _mock: 'itemCreate',_autoLoading:true })
         .catch(error => {
           if (error.response.status === 422) {
             Dialog.alert({

@@ -42,9 +42,8 @@ export const SignInPage = defineComponent({
       ]
       Object.assign(errors, validate(formData, reules))
       if (!hasError(errors)) {
-        const response = await http.post<{ jwt: string }>('/session', formData)
-        .catch(onError)
-        console.log(response)
+        const response = await http.post<{ jwt: string }>('/session', formData, { _autoLoading: true })
+          .catch(onError)
         localStorage.setItem('jwt', response.data.jwt)
         /*
           第一种方式 localstorage
@@ -70,7 +69,7 @@ export const SignInPage = defineComponent({
     const onClickSendValidationCode = async () => {
       on()
       await http
-        .post('/validation_codes', { email: formData.email},{
+        .post('/validation_codes', { email: formData.email }, {
           _autoLoading: true
         })
         .catch(onError)
@@ -82,7 +81,7 @@ export const SignInPage = defineComponent({
       <MainLayout>{
         {
           title: () => '登录',
-          icon: () =><BackIcon class={s.svg}/>,
+          icon: () => <BackIcon class={s.svg} />,
           default: () => (
             <div class={s.wrapper}>
               <div class={s.logo}>

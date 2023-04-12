@@ -42,8 +42,6 @@ export const TagForm = defineComponent({
         sign: []
       })
       Object.assign(errors, validate(formData, rules))
-      console.log(errors);
-      console.log(errors.name?.length, errors.sign?.length);
       if (errors.name?.length !== 0) {
         activeName.value = true
         setTimeout(() => {
@@ -59,10 +57,10 @@ export const TagForm = defineComponent({
         if (!hasError(errors)) {
           const promise = await formData.id ?
             http.patch(`/tags/${formData.id}`, formData, {
-              _mock: 'tagEdit'
+              _mock: 'tagEdit', _autoLoading: true
             }) :
             http.post('/tags', formData, {
-              _mock: 'tagCreate'
+              _mock: 'tagCreate', _autoLoading: true
             })
           await promise.catch(error => {
             if (error.response.status === 422) {
