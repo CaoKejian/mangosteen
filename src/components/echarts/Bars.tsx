@@ -23,7 +23,7 @@ export const Bars = defineComponent({
                     <span> ￥<Money value={amount} /> </span>
                   </div>
                   <div class={s.bar}>
-                    <div class={`animate__animated animate__fadeInLeft animate__slow ${s.bar_inner}`} style={{ width: `${percent}%` }}></div>
+                    <div class={s.bar_inner} style={{ width: `${percent}%` }}></div>
                   </div>
                 </div>
               </div>

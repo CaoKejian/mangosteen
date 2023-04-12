@@ -38,7 +38,7 @@ export const TimeTabsLayout = defineComponent({
     }
   },
   setup: (props, context) => {
-    const refSelected = ref('昨天')
+    const refSelected = ref('本月')
     const time = new Time()
     const tempTime = reactive({
       start: new Time().format(),

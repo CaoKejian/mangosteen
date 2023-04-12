@@ -3,7 +3,6 @@ import { defineComponent, onMounted, PropType, ref, watch } from 'vue';
 import s from './Echarts.module.scss'
 import 'echarts-liquidfill';
 
-const rate = 0.5
 const echartsOption = {
   backgroundColor: '#fff',
   width: '100%',
@@ -22,20 +21,17 @@ const echartsOption = {
 }
 
 export const BallChart = defineComponent({
-  // props: {
-  //   data: {
-  //     type: Array as PropType<[string, number][]>,
-  //     required: true,
-  //   },
-  // },
+  props: {
+    data: {
+      type: Number,
+      default: 0.5
+    }
+  },
   setup: (props, context) => {
     const refDiv3 = ref<HTMLDivElement>()
     let chart: echarts.ECharts | undefined = undefined
-    onMounted(async () => {
-      if (refDiv3.value === undefined) { return }
-      chart = echarts.init(refDiv3.value);
-
-      chart.setOption({
+    const getData = () => {
+      chart?.setOption({
         ...echartsOption,
         series: [
           {
@@ -43,12 +39,11 @@ export const BallChart = defineComponent({
             type: 'liquidFill',
             radius: '90%',
             data: [
-              //波浪的高度占比 (第一个是浅色的 : 在传过来的数据上加上一点作为展示效果,第二个用传过来的数据)
               {
-                value: rate + 0.05,
+                value: props.data + 0.05,
               },
               {
-                value: rate,
+                value: props.data,
               },
             ],
             center: ['50%', '50%'], //图在整个画布的位置
@@ -65,12 +60,10 @@ export const BallChart = defineComponent({
                 if (!value) {
                   return '加载中';
                 } else {
-                  return rate * 100 + '%';
+                  return props.data * 100 + '%';
                 }
               },
-              // textStyle: {
               fontSize: 22,
-              // },
             },
             outline: {
               //水球图的外层边框 可设置 show:false  不显示
@@ -87,6 +80,14 @@ export const BallChart = defineComponent({
           },
         ],
       })
+    }
+    onMounted(async () => {
+      if (refDiv3.value === undefined) { return }
+      chart = echarts.init(refDiv3.value);
+      getData()
+    })
+    watch(() => props.data, () => {
+      getData()
     })
     return () => (<>
       <div ref={refDiv3} class={s.demo}></div>

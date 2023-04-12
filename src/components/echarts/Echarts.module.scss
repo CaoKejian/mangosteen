@@ -47,7 +47,8 @@
       top: 0;
       left: 0;
       height: 100%;
-      width: 42px;
+      // width: 42px;
+      transition: width .5s;
     }
   }
   &:nth-child(1) {
