@@ -56,7 +56,7 @@ export const InputPad = defineComponent({
         text: '提交', onClick: () => {
           context.emit("update:amount",
             parseFloat(refAmount.value) * 100)
-            props.onSubmit?.()
+          props.onSubmit?.()
         }
       },
     ]
@@ -78,7 +78,7 @@ export const InputPad = defineComponent({
           </svg>
           <span class={s.datespan} onClick={showDatePicker}>{new Time(props.happenAt).format()}</span>
           <Popup position='bottom' v-model:show={refDatePickerVisible.value}>
-            <DatetimePicker value={props.happenAt} type="date" title="选择年月日" min-date={new Date(2023, 1, 1)} max-date={new Date()}
+            <DatetimePicker modelValue={props.happenAt ? new Date(props.happenAt) : new Date()} type="date" title="选择年月日" min-date={new Date(2022, 1, 1)} max-date={new Date()}
               onConfirm={setDate} onCancel={hideDatePicker}
             />
           </Popup>

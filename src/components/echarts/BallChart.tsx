@@ -1,10 +1,9 @@
 import * as echarts from 'echarts';
-import { defineComponent, onMounted, PropType, ref, watch } from 'vue';
+import { defineComponent, onMounted, PropType, Ref, ref, watch } from 'vue';
 import s from './Echarts.module.scss'
 import 'echarts-liquidfill';
-
 const echartsOption = {
-  backgroundColor: '#fff',
+  backgroundColor: 'transparent',
   width: '100%',
   height: '100%',
   title: [{
@@ -13,7 +12,7 @@ const echartsOption = {
     bottom: "20%",
     textStyle: {
       fontWeight: "bold",
-      fontSize: 14,
+      fontSize: 10,
       color: "#fff",
     },
   },
@@ -81,17 +80,28 @@ export const BallChart = defineComponent({
         ],
       })
     }
+    const hundleClick = () => {
+
+    }
     onMounted(async () => {
       if (refDiv3.value === undefined) { return }
-      chart = echarts.init(refDiv3.value);
+      chart = echarts.init(refDiv3.value)
       getData()
     })
     watch(() => props.data, () => {
       getData()
     })
+    const items = ref([
+      { id: 1, name: 'item 1' },
+      { id: 2, name: 'item 2' },
+      { id: 3, name: 'item 3' },
+      { id: 4, name: 'item 4' },
+      { id: 5, name: 'item 5' }
+    ])
     return () => (<>
-      <div ref={refDiv3} class={s.demo}></div>
+        <div ref={refDiv3} class={s.demo1} onClick={hundleClick} ></div>
     </>
+
     )
   }
 })

@@ -2,7 +2,20 @@
   width: 100%;
   height: 200px;
 }
-
+.demo1{
+  width:24%;
+  height: 120px;
+  position: fixed;
+  right: 0;
+  bottom: 30%;
+  z-index: 999;
+  background: transparent;
+  opacity: .8;
+}
+.demo1_big{
+  width: 100%;
+  height: 200px;
+}
 .demo3 {
   margin-bottom: 68px;
 }
