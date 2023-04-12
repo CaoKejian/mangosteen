@@ -14,7 +14,6 @@ import { ThirdActions } from "../components/welcome/thirdActions";
 import { http } from "../shared/Http";
 import { ItemPage } from "../views/ItemPage";
 import { SignInPage } from "../views/SignInPage";
-import { Start } from "../views/Start";
 import { StatisticsPage } from "../views/StatisticsPage";
 import { TagPage } from "../views/TagPage";
 import { Welcome } from "../views/Welcome";
@@ -24,7 +23,7 @@ export const routes: RouteRecordRaw[] = [
   {
     path: '/welcome', component: Welcome,
     beforeEnter: (to, from, next) => {
-      localStorage.getItem('skip') === '1' ? next('/start') : next()
+      localStorage.getItem('skip') === '1' ? next('/items') : next()
     },
     children: [
       { path: '', redirect: '/welcome/1' },
@@ -34,7 +33,6 @@ export const routes: RouteRecordRaw[] = [
       { path: '4', name: 'welcome4', components: { main: Forth, footer: ForthActions }, },
     ]
   },
-  { path: '/start', component: Start },
   {
     path: '/items', component: ItemPage,
     children: [

@@ -1,4 +1,5 @@
 import { defineComponent, onMounted, PropType, reactive, ref, watch } from 'vue'
+import { RouterLink } from 'vue-router'
 import { Button } from '../../shared/Button'
 import { Datetime } from '../../shared/Datetime'
 import { FloatButton } from '../../shared/FloatButton'
@@ -57,6 +58,7 @@ export const ItemSummary = defineComponent({
       }, {
         _mock: 'itemIndexBalance'
       })
+
     }
     onMounted(fetchItemsBalance)
     watch(() => [props.startDate, props.endDate], () => {
@@ -67,7 +69,7 @@ export const ItemSummary = defineComponent({
     })
     return () => (
       <div class={s.wrapper}>
-        {items.value ? (
+        {(items.value && items.value.length > 0) ? (
           <>
             <ul class={s.total}>
               <li>
@@ -106,11 +108,25 @@ export const ItemSummary = defineComponent({
               }
             </div>
           </>
-        ) : (
-          <div>记录为空</div>
+        ) : (<>
+          <div class={s.svg_wrapper}>
+            <svg>
+              <use xlinkHref='#pig'></use>
+            </svg>
+          </div>
+          <div class={s.button_wrapper}>
+            <RouterLink to='/items/create'>
+              <Button class={s.button}>开始记账</Button>
+            </RouterLink>
+          </div>
+        </>
         )}
-        <FloatButton />
-      </div>
+         <div class={s.float_button}>
+              <RouterLink to='/items/create'>
+                <FloatButton></FloatButton>
+              </RouterLink>
+            </div>
+      </div >
     )
   },
 })

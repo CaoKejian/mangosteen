@@ -91,3 +91,16 @@
     bottom: 16px;
     right: 16px;
   }
+  .svg_wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 120px 0 90px;
+  }
+  .button{
+    width: 100%;
+    background-color:  var(--float-button-bg);
+    &_wrapper{
+      padding: 16px 16px;
+    }
+  }

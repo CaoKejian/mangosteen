@@ -8,7 +8,7 @@ export const ForthActions = () => (
   <div class={s.actions}>
     <SkipFeatures class={s.fake} />
     <span onClick={onClick} class={s.true} >
-      <RouterLink to="/start" >完成</RouterLink>
+      <RouterLink to="/items" >完成</RouterLink>
     </span>
     <SkipFeatures class={s.true} />
   </div>
