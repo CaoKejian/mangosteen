@@ -30,7 +30,7 @@ export const OverLay = defineComponent({
     return () => (<>
       <div class={s.mask} onClick={close}></div>
 
-      <div class={s.overlay}>
+      <div class={`animate__animated animate__fadeInLeft animate__faster ${s.overlay}`}>
         <section class={s.currentUser}>
           {me.value ?
             <div class={s.currentUser_email}>

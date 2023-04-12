@@ -1,7 +1,6 @@
 import { computed, defineComponent, onMounted, PropType, reactive, ref } from 'vue';
 import { FormItem } from '../../shared/Form';
 import s from './Charts.module.scss';
-import * as echarts from 'echarts';
 import 'echarts-liquidfill';
 import { http } from '../../shared/Http';
 import { LineChart } from '../echarts/LineChart';
@@ -26,10 +25,7 @@ export const Charts = defineComponent({
       required: false
     }
   },
-
   setup: (props, context) => {
-    const refDiv2 = ref<HTMLDivElement>()
-    const refDiv3 = ref<HTMLDivElement>()
     const kind = ref('expenses')
     const data1 = ref<Data1>([])
     const betterData1 = computed<[string, number][]>(() => {

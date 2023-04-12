@@ -80,9 +80,6 @@ export const TimeTabsLayout = defineComponent({
     const onClickMenu = () => {
       overlayVisible.value = !overlayVisible.value
     }
-    onMounted(() => {
-      // console.log(time.getTimestamp());
-    })
     return () => (
       <MainLayout>{
         {
