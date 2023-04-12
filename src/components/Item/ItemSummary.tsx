@@ -58,6 +58,7 @@ export const ItemSummary = defineComponent({
       }, {
         _mock: 'itemIndexBalance'
       })
+      console.log(response);
 
     }
     onMounted(fetchItemsBalance)
@@ -121,11 +122,11 @@ export const ItemSummary = defineComponent({
           </div>
         </>
         )}
-         <div class={s.float_button}>
-              <RouterLink to='/items/create'>
-                <FloatButton></FloatButton>
-              </RouterLink>
-            </div>
+        <div class={s.float_button}>
+          <RouterLink to='/items/create'>
+            <FloatButton></FloatButton>
+          </RouterLink>
+        </div>
       </div >
     )
   },

@@ -11,6 +11,7 @@ import { Second } from "../components/welcome/second";
 import { SecondActions } from "../components/welcome/secondActions";
 import { Third } from "../components/welcome/third";
 import { ThirdActions } from "../components/welcome/thirdActions";
+import { ComingSoon } from "../shared/ComingSoon";
 import { http } from "../shared/Http";
 import { ItemPage } from "../views/ItemPage";
 import { SignInPage } from "../views/SignInPage";
@@ -58,11 +59,9 @@ export const routes: RouteRecordRaw[] = [
   },
   {
     path: '/statistics', component: StatisticsPage,
-    beforeEnter: async (to, from, next) => {
-      await http.get('/me').catch(() => {
-        next('/sign_in?return_to=' + to.path)
-      })
-      next()
-    },
+  },{
+    path: '/export', component: ComingSoon
+  },{
+    path: '/notify', component: ComingSoon
   }
 ]
