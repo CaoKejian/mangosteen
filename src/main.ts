@@ -8,26 +8,27 @@ import { createRouter } from 'vue-router'
 import { routes } from './config/routes'
 import { history } from './shared/history'
 import '@svgstore'
-import { http } from './shared/Http';
-import { fetchMe, mePromise } from './shared/me';
-
+import { createPinia } from 'pinia'
+const pinia = createPinia()
+import { useMeStore } from './stores/useMeStore';
+const app = createApp(App)
+app.use(pinia)
 
 const router = createRouter({
   history,
   routes,
 })
-fetchMe()
+const meStore = useMeStore()
+meStore.fetchMe()
 router.beforeEach((to, from) => {
   if (to.path === '/' || to.path === '/items' || to.path.startsWith('/welcome') || to.path.startsWith('/sign_in')) {
     return true
   } else {
-    return mePromise!.then(
+    return meStore.mePromise!.then(
       () => true,
       () => '/sign_in?return_to=' + to.path
     )
   }
 })
-
-const app = createApp(App)
 app.use(router)
 app.mount('#app')
