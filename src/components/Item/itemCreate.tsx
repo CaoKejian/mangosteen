@@ -91,7 +91,7 @@ export const itemCreate = defineComponent({
     const currentTag = ref<HTMLDivElement>()
     const onLongPress = (id: number) => {
       console.log(id);
-      router.push(`/tags/${id}/edit?kind=${formData.kind}&return_to=${router.currentRoute.value.fullPath}`)
+      router.push(`/tags/${id}/edit?kind=${formData.kind}`)
     }
     const onTouchStart = (e: TouchEvent, tag: Tag) => {
       currentTag.value = e.currentTarget as HTMLDivElement
