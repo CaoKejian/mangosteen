@@ -58,8 +58,7 @@ export const ItemSummary = defineComponent({
       }, {
         _mock: 'itemIndexBalance'
       })
-      console.log(response);
-
+      Object.assign(itemsBalance, response.data)
     }
     onMounted(fetchItemsBalance)
     watch(() => [props.startDate, props.endDate], () => {
@@ -75,15 +74,15 @@ export const ItemSummary = defineComponent({
             <ul class={s.total}>
               <li>
                 <span>收入</span>
-                <span>128</span>
+                <Money value={itemsBalance.income} />
               </li>
               <li>
                 <span>支出</span>
-                <span>99</span>
+                <Money value={itemsBalance.expenses} />
               </li>
               <li>
                 <span>净收入</span>
-                <span>39</span>
+                <Money value={itemsBalance.balance} />
               </li>
             </ul>
             <ol class={s.list}>
