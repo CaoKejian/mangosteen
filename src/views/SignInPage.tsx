@@ -53,11 +53,8 @@ export const SignInPage = defineComponent({
         // router.push(returnTo ? returnTo : '/' )
         //  router.push('/sign_in?return_to='+ encodeURIComponent(route.fullPath))
         const returnTo = route.query.return_to?.toString()
-        refreshMe().then(() => {
-          router.push(returnTo || '/')
-        }, () => {
-          window.alert('登陆失败')
-        })
+        refreshMe()
+        router.push(returnTo || '/')
       }
     }
     const onError = (error: any) => {

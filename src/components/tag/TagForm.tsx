@@ -18,15 +18,13 @@ export const TagForm = defineComponent({
     }
     const formData = reactive<Partial<Tag>>({
       id: undefined,
-      kind: route.query.kind.toString(),
+      kind: route.query.kind.toString() as ('expenses' | 'income'),
       name: '',
       sign: '',
     })
     const activeLabel = ref(false)
     const activeName = ref(false)
-    const errors = reactive<{
-      [k in keyof typeof formData]?: string[]
-    }>({})
+    const errors = reactive<FormErrors<typeof formData>>({})
     const cancel = () => {
       formData.sign = ''
     }

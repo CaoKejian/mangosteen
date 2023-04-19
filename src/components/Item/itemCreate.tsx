@@ -10,6 +10,7 @@ import 'animate.css';
 import { RouterLink, useRouter } from 'vue-router';
 import { Dialog } from 'vant';
 import { BackIcon } from '../../shared/BackIcon';
+import { hasError, validate } from '../../shared/validate';
 export const itemCreate = defineComponent({
   props: {
     name: {
@@ -17,17 +18,17 @@ export const itemCreate = defineComponent({
     }
   },
   setup: (props, context) => {
-    const formData = reactive<{
-      kind: string
-      tags_id: number[]
-      amount: number
-      happen_at: string
-    }
-    >({
-      kind: "支出",
-      tags_id: [],
+    const formData = reactive<Partial<Item>>({
+      kind: 'expenses',
+      tag_ids: [],
       amount: 0,
       happen_at: new Date().toISOString()
+    })
+    const errors = reactive<FormErrors<typeof formData>>({
+      kind: [],
+      tag_ids: [],
+      amount: [],
+      happen_at: []
     })
     const select = ref(0)
     const { tags: expensesTags, hasMore, fetchTags } = useTags((page) => {
@@ -36,7 +37,7 @@ export const itemCreate = defineComponent({
         page: page + 1,
       }, {
         _mock: 'tagIndex',
-        _autoLoading:true
+        _autoLoading: true
       })
     })
     const { tags: incomeTags, hasMore: hasMore2, fetchTags: fetchTags2 } = useTags((page) => {
@@ -49,12 +50,32 @@ export const itemCreate = defineComponent({
     })
     const onSelect = (tag: Tag) => {
       select.value = tag.id
-      formData.tags_id = [tag.id]
+      formData.tag_ids = [tag.id]
     }
     const router = useRouter()
     const onSubmit = async () => {
+      Object.assign(errors, {
+        kind: [],
+        tag_ids: [],
+        amount: [],
+        happen_at: []
+      })
+      Object.assign(errors,validate(formData,[
+        {key:'kind',type:'required',message:"类型必填"},
+        {key:'tag_ids',type:'required',message:"标签必填"},
+        {key:'amount',type:'required',message:"金额必填"},
+        {key:'amount',type:'notEqual',value:0,message:"金额不能为0"},
+        {key:'happen_at',type:'required',message:"时间必填"},
+      ]))
+      if(hasError(errors)){
+        Dialog.alert({
+          title: "出错",
+          message: Object.values(errors).filter(i=>i.length>0).join('\n')
+        })
+        return
+      }
       await http.post<Resource<Item>>('/items', formData,
-        { _mock: 'itemCreate',_autoLoading:true })
+        { _mock: 'itemCreate', _autoLoading: true })
         .catch(error => {
           if (error.response.status === 422) {
             Dialog.alert({
@@ -103,7 +124,7 @@ export const itemCreate = defineComponent({
           default: () => <>
             <div class={s.wrapper}>
               <Tabs v-model:selected={formData.kind} class={s.tabs}>
-                <Tab name='支出' >
+                <Tab value="expenses" name='支出' >
                   <div class="animate__animated animate__fadeInLeft animate__faster">
                     <div class={s.tags_wrapper} onTouchmove={onTouchMove}>
                       <RouterLink to={'/tags/create?kind=expenses'} class={s.tag}>
@@ -137,7 +158,7 @@ export const itemCreate = defineComponent({
                     </div>
                   </div>
                 </Tab>
-                <Tab name='收入' >
+                <Tab value="income" name='收入' >
                   <div class="animate__animated animate__fadeInRight animate__faster">
                     <div class={s.tags_wrapper} onTouchmove={onTouchMove}>
                       <RouterLink to={'/tags/create?kind=income'} class={s.tag}>
