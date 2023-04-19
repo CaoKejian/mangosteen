@@ -11,6 +11,7 @@ import '@svgstore'
 import { createPinia } from 'pinia'
 const pinia = createPinia()
 import { useMeStore } from './stores/useMeStore';
+import { Dialog } from 'vant';
 const app = createApp(App)
 app.use(pinia)
 
@@ -26,7 +27,9 @@ router.beforeEach((to, from) => {
   } else {
     return meStore.mePromise!.then(
       () => true,
-      () => '/sign_in?return_to=' + to.path
+      () => {
+        return '/sign_in?return_to=' + from.path
+      }
     )
   }
 })
