@@ -6,10 +6,9 @@ import { MainLayout } from '../layouts/MainLayout';
 import { BackIcon } from '../shared/BackIcon';
 import { Button } from '../shared/Button';
 import { Form, FormItem } from '../shared/Form';
-import { history } from '../shared/history';
 import { http } from '../shared/Http';
-import { refreshMe } from '../shared/me';
 import { hasError, Rules, validate } from '../shared/validate';
+import { useMeStore } from '../stores/useMeStore';
 import s from './SignInPage.module.scss';
 export const SignInPage = defineComponent({
   props: {
@@ -18,6 +17,7 @@ export const SignInPage = defineComponent({
     }
   },
   setup: (props, context) => {
+    const meSotre = useMeStore() 
     const formData = reactive({
       email: '1849201815@qq.com',
       code: ''
@@ -53,7 +53,7 @@ export const SignInPage = defineComponent({
         // router.push(returnTo ? returnTo : '/' )
         //  router.push('/sign_in?return_to='+ encodeURIComponent(route.fullPath))
         const returnTo = route.query.return_to?.toString()
-        refreshMe()
+        meSotre.refreshMe()
         router.push(returnTo || '/')
       }
     }

@@ -2,8 +2,8 @@ import { defineComponent, onMounted, PropType, ref } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 import s from './OverLay.module.scss';
 import 'animate.css'
-import { mePromise } from './me';
 import { Dialog } from 'vant';
+import { useMeStore } from '../stores/useMeStore';
 export const OverLay = defineComponent({
   props: {
     onClose: {
@@ -16,8 +16,9 @@ export const OverLay = defineComponent({
     }
     const route = useRoute()
     const me = ref<User>()
+    const meStore = useMeStore()
     onMounted(async () => {
-      const response = await mePromise
+      const response = await meStore.mePromise
       me.value = response?.data.resource
     })
     const onSignOut = async () => {
