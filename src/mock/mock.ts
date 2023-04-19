@@ -93,11 +93,11 @@ export const mockItemIndex: Mock = (config) => {
       id: createdId(),
       user_id: createdId(),
       amount: Math.floor(Math.random() * 10000),
-      tags_id: [createdId()],
+      tag_ids: [createdId()],
       tags: [createTag()],
       happen_at: faker.date.past().toISOString(),
       kind: config.params.kind,
-    }))
+    } as Item))
   const createBody = (n = 1, attrs?: any) => ({
     resources: createItem(n),
     pager: createPaper(page),
@@ -152,14 +152,14 @@ export const mockItemCreate: Mock = (config) => {
       "user_id": 254,
       "amount": 9900,
       "note": null,
-      "tags_id": [
+      "tag_ids": [
         370,
       ],
       "happen_at": "2020-10-29T16:00:00.000Z",
       "created_at": "2022-06-16T16:17:48.559Z",
       "updated_at": "2022-06-16T16:17:48.559Z",
       "kind": "expenses"
-    }
+    } as Item
   }]
 }
 export const mockSession: Mock = (config) => {
