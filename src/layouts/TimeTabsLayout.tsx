@@ -19,7 +19,6 @@ const demo = defineComponent({
       type: String as PropType<string>,
       required: false
     }
-
   },
 })
 export const TimeTabsLayout = defineComponent({
@@ -35,7 +34,7 @@ export const TimeTabsLayout = defineComponent({
     hideThisYear: {
       type: Boolean,
       default: false
-    }
+    },
   },
   setup: (props, context) => {
     const refSelected = ref('本月')
@@ -108,7 +107,7 @@ export const TimeTabsLayout = defineComponent({
                     endDate={timeList[1].end.format()}>
                   </props.component>
                 </Tab>
-                <Tab  value='自定义时间'  name='自定义时间'>
+                <Tab value='自定义时间' name='自定义时间'>
                   <props.component
                     startDate={customtime.start}
                     endDate={customtime.end}
@@ -118,7 +117,7 @@ export const TimeTabsLayout = defineComponent({
               </Tabs> :
               <Tabs v-model:selected={refSelected.value}
                 onUpdate:selected={onSelect} rerenderOnSelect={props.rerenderOnSwitchTab}>
-                <Tab value='本月'  name='本月'>
+                <Tab value='本月' name='本月'>
                   <props.component
                     startDate={timeList[0].start.format()}
                     endDate={timeList[0].end.format()}>

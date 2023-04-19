@@ -104,3 +104,19 @@
       padding: 16px 16px;
     }
   }
+  .f_wrapper{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .selectTime{
+      text-align: center;
+      margin-top: 100px;
+    }
+    .timeSvg{
+      width: 348px;
+      height: 348px;
+      text-align: center;
+    }
+  }
+  
