@@ -35,3 +35,7 @@ router.beforeEach((to, from) => {
 })
 app.use(router)
 app.mount('#app')
+
+if(DEBUG){
+  console.log('正在调试');
+}
