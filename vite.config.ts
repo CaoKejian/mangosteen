@@ -17,7 +17,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/api/v1': {
-        target: 'http://8.130.24.249:3000/'
+        // target: 'http://8.130.24.249:3000/'
+        target: 'https://mangosteen.caokejian.club/'
       }
     }
   }
