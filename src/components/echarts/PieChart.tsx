@@ -7,8 +7,8 @@ import { getMoney } from '../../shared/Money';
 const echartsOption = {
   tooltip: {
     trigger: 'item',
-    formatter: (x: {name:string, value:number, percent: number})=>{
-      const {name,value,percent} = x
+    formatter: (x: { name: string, value: number, percent: number }) => {
+      const { name, value, percent } = x
       return `${name}: ￥${getMoney(value)} 占比 ${percent}%`
     }
   },
@@ -55,6 +55,7 @@ export const PieChart = defineComponent({
     })
     return () => (<>
       <div ref={refDiv2} class={s.demo}></div>
+
     </>
     )
   }

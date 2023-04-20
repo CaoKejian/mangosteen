@@ -7,7 +7,7 @@ const echartsOption = {
   width: '100%',
   height: '100%',
   title: [{
-    text: "本月支出占比",
+    text: "支出占比",
     left: "center",
     bottom: "20%",
     textStyle: {
@@ -84,6 +84,7 @@ export const BallChart = defineComponent({
 
     }
     onMounted(async () => {
+      console.log(props.data);
       if (refDiv3.value === undefined) { return }
       chart = echarts.init(refDiv3.value)
       getData()
@@ -91,15 +92,8 @@ export const BallChart = defineComponent({
     watch(() => props.data, () => {
       getData()
     })
-    const items = ref([
-      { id: 1, name: 'item 1' },
-      { id: 2, name: 'item 2' },
-      { id: 3, name: 'item 3' },
-      { id: 4, name: 'item 4' },
-      { id: 5, name: 'item 5' }
-    ])
     return () => (<>
-        <div ref={refDiv3} class={s.demo1} onClick={hundleClick} ></div>
+      <div ref={refDiv3} class={s.demo1} onClick={hundleClick} ></div>
     </>
 
     )

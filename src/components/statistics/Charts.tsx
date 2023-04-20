@@ -36,7 +36,7 @@ export const Charts = defineComponent({
         const time = new Time(props.startDate + 'T00:00:00.000+0800').add(i, 'day').getTimestamp()
         const item = data1.value[0]
 
-        const amount = item && new Date(item.happen_at+'T00:00:00.000+0800').getTime() === time ? data1.value.shift()!.amount : 0
+        const amount = item && new Date(item.happen_at + 'T00:00:00.000+0800').getTime() === time ? data1.value.shift()!.amount : 0
         return [new Date(time).toISOString(), amount]
       })
     })
@@ -82,6 +82,7 @@ export const Charts = defineComponent({
         }
       )
       data2.value = response.data.groups
+     
     }
     onMounted(fetchData2)
     watch(() => kind.value, fetchData2)
@@ -94,18 +95,43 @@ export const Charts = defineComponent({
       }))
     })
     const rate = ref<number>()
-    const fetchRate = () => {
+    const fetchRate = async () => {
+      const response = await http.get<{ groups: Data2; summary: number }>(
+        '/items/summary',
+        {
+          happen_after: props.startDate,
+          happen_before: props.endDate,
+          kind: kind.value,
+          group_by: 'tag_id'
+        },
+        {
+          _mock: 'itemSummary'
+        }
+      )
+      const totalAmount =  response.data.groups.reduce((acc, cur) => acc + cur.amount, 0);
+      const response2 = await http.get<{ groups: Data2; summary: number }>(
+        '/items/summary',
+        {
+          happen_after: props.startDate,
+          happen_before: props.endDate,
+          kind: kind.value,
+          group_by: 'tag_id'
+        },
+        {
+          _mock: 'itemSummary'
+        }
+      )
+      const totalAmount2 =  response.data.groups.reduce((acc, cur) => acc + cur.amount, 0);
+
       if (kind.value == 'income') {
         rate.value = 0.7
       } else {
         rate.value = 0.5
       }
-      console.log(rate.value);
     }
     onMounted(fetchRate)
     watch(() => kind.value, () => {
       fetchRate()
-      console.log(111);
     })
     return () => (
       <div class={s.wrapepr}>
