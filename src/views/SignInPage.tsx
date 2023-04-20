@@ -17,7 +17,7 @@ export const SignInPage = defineComponent({
     }
   },
   setup: (props, context) => {
-    const meSotre = useMeStore() 
+    const meSotre = useMeStore()
     const formData = reactive({
       email: '1849201815@qq.com',
       code: ''
@@ -88,7 +88,7 @@ export const SignInPage = defineComponent({
               <Form onSubmit={onSubmit}>
                 <FormItem label='邮箱地址' type='text' v-model={formData.email}
                   placeholder='请输入邮箱，然后点击发送验证码' error={errors.email?.[0] ?? '　'}></FormItem>
-                <FormItem ref={refValidationCode} countForm={3} label='验证码' type='validationcode'
+                <FormItem ref={refValidationCode} countForm={60} label='验证码' type='validationcode'
                   placeholder='请输入六位数字'
                   disabled={refDisabled.value}
                   onClick={onClickSendValidationCode}
@@ -105,3 +105,4 @@ export const SignInPage = defineComponent({
     )
   }
 })
+export default SignInPage

@@ -1,8 +1,6 @@
 import { RouteRecordRaw } from "vue-router";
 import { itemCreate } from "../components/Item/itemCreate";
 import { itemList } from "../components/Item/itemList";
-import { TagCreate } from "../components/tag/TagCreate";
-import { TagEdit } from "../components/tag/TagEdit";
 import { First } from "../components/welcome/first";
 import { FirstActions } from "../components/welcome/firstActions";
 import { Forth } from "../components/welcome/forth";
@@ -13,16 +11,11 @@ import { Third } from "../components/welcome/third";
 import { ThirdActions } from "../components/welcome/thirdActions";
 import { ComingSoon } from "../shared/ComingSoon";
 import { http } from "../shared/Http";
-import { ItemPage } from "../views/ItemPage";
-import { SignInPage } from "../views/SignInPage";
-import { StatisticsPage } from "../views/StatisticsPage";
-import { TagPage } from "../views/TagPage";
-import { Welcome } from "../views/Welcome";
 
 export const routes: RouteRecordRaw[] = [
   { path: '/', redirect: '/welcome' },
   {
-    path: '/welcome', component: Welcome,
+    path: '/welcome', component: () => import('../views/Welcome'),
     beforeEnter: (to, from, next) => {
       localStorage.getItem('skip') === '1' ? next('/items') : next()
     },
@@ -35,14 +28,14 @@ export const routes: RouteRecordRaw[] = [
     ]
   },
   {
-    path: '/items', component: ItemPage,
+    path: '/items', component: () => import('../views/ItemPage'),
     children: [
       { path: "", component: itemList },
       { path: "create", component: itemCreate },
     ]
   },
   {
-    path: '/tags', component: TagPage,
+    path: '/tags', component: () => import('../views/TagPage'),
     beforeEnter: async (to, from, next) => {
       await http.get('/me').catch(() => {
         next('/sign_in?return_to=' + to.path)
@@ -50,18 +43,18 @@ export const routes: RouteRecordRaw[] = [
       next()
     },
     children: [
-      { path: 'create', component: TagCreate },
-      { path: ':id/edit', component: TagEdit }
+      { path: 'create', component: () => import('../views/TagPage') },
+      { path: ':id/edit', component: ()=> import('../components/tag/TagEdit')}
     ]
   },
   {
-    path: '/sign_in', component: SignInPage
+    path: '/sign_in', component: () => import('../views/SignInPage')
   },
   {
-    path: '/statistics', component: StatisticsPage,
-  },{
-    path: '/export', component: ComingSoon
-  },{
+    path: '/statistics', component: () => import('../views/StatisticsPage'),
+  }, {
+    path: '/export', component: ()=> import('../shared/ComingSoon')
+  }, {
     path: '/notify', component: ComingSoon
   }
 ]
