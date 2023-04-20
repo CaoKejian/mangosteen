@@ -17,7 +17,7 @@ export const TagEdit = defineComponent({
       }
     }
     const onError = () => {
-      Dialog.alert({ title: "提示", message: '刪除失敗' })
+      Dialog.alert({ title: "提示", message: '刪除失败' })
     }
     const router = useRouter()
     const onDelete = async (options?: { withItems?: boolean }) => {

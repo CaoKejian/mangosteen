@@ -21,6 +21,10 @@ export const OverLay = defineComponent({
       const response = await meStore.mePromise
       me.value = response?.data.resource
     })
+    const onClick = () => {
+      props.onClose?.()
+      Dialog.alert({ title: "提示", message: '你已在记账页面' })
+    }
     const onSignOut = async () => {
       await Dialog.confirm({
         title: "提示",
@@ -30,7 +34,6 @@ export const OverLay = defineComponent({
     }
     return () => (<>
       <div class={s.mask} onClick={close}></div>
-
       <div class={`animate__animated animate__fadeInLeft animate__faster ${s.overlay}`}>
         <section class={s.currentUser}>
           {me.value ?
@@ -46,6 +49,12 @@ export const OverLay = defineComponent({
         </section>
         <nav>
           <ul class={s.action_list}>
+            <li>
+              <RouterLink to="/items" class={s.action}>
+                <svg class={s.icon}><use xlinkHref='#pig'></use></svg>
+                <span onClick={onClick}>记账</span>
+              </RouterLink>
+            </li>
             <li>
               <RouterLink to="/statistics" class={s.action}>
                 <svg class={s.icon}><use xlinkHref='#charts'></use></svg>
