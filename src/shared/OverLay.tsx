@@ -1,5 +1,5 @@
 import { defineComponent, onMounted, PropType, ref } from 'vue';
-import { RouterLink, useRoute } from 'vue-router';
+import { RouterLink, useRoute, useRouter } from 'vue-router';
 import s from './OverLay.module.scss';
 import 'animate.css'
 import { Dialog } from 'vant';
@@ -31,6 +31,7 @@ export const OverLay = defineComponent({
         message: "你真的要退出登录吗？"
       })
       localStorage.removeItem('jwt')
+      window.location.reload()
     }
     return () => (<>
       <div class={s.mask} onClick={close}></div>
