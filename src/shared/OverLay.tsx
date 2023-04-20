@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, PropType, ref } from 'vue';
+import { defineComponent, onMounted, PropType, reactive, ref } from 'vue';
 import { RouterLink, useRoute, useRouter } from 'vue-router';
 import s from './OverLay.module.scss';
 import 'animate.css'
@@ -17,13 +17,31 @@ export const OverLay = defineComponent({
     const route = useRoute()
     const me = ref<User>()
     const meStore = useMeStore()
+    const state = reactive({
+      showActive: false,
+      showActive2: false,
+    })
     onMounted(async () => {
+      if (route.path === '/items') {
+        state.showActive = true
+      } else if (route.path === '/statistics') {
+        state.showActive2 = true
+      } else {
+        state.showActive = false
+        state.showActive2 = false
+      }
       const response = await meStore.mePromise
       me.value = response?.data.resource
     })
-    const onClick = () => {
+    const onClick = (i: number) => {
       props.onClose?.()
-      Dialog.alert({ title: "提示", message: '你已在记账页面' })
+      if (i === 1) {
+        if (!state.showActive) return
+        Dialog.alert({ title: "提示", message: '你已在记账页面' })
+      } else {
+        if (!state.showActive2) return
+        Dialog.alert({ title: "提示", message: '你已在图标页面' })
+      }
     }
     const onSignOut = async () => {
       await Dialog.confirm({
@@ -51,15 +69,15 @@ export const OverLay = defineComponent({
         <nav>
           <ul class={s.action_list}>
             <li>
-              <RouterLink to="/items" class={s.action}>
+              <RouterLink to="/items" class={state.showActive ? s.active : s.action}>
                 <svg class={s.icon}><use xlinkHref='#pig'></use></svg>
-                <span onClick={onClick}>记账</span>
+                <span onClick={() => onClick(1)}>记账</span>
               </RouterLink>
             </li>
             <li>
-              <RouterLink to="/statistics" class={s.action}>
+              <RouterLink to="/statistics" class={state.showActive2 ? s.active : s.action}>
                 <svg class={s.icon}><use xlinkHref='#charts'></use></svg>
-                <span>统计图表</span>
+                <span onClick={() => onClick(2)}>统计图表</span>
               </RouterLink>
             </li>
             <li>

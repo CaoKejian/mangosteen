@@ -11,7 +11,6 @@ import '@svgstore'
 import { createPinia } from 'pinia'
 const pinia = createPinia()
 import { useMeStore } from './stores/useMeStore';
-import { Dialog } from 'vant';
 const app = createApp(App)
 app.use(pinia)
 
@@ -32,10 +31,10 @@ router.beforeEach((to, from) => {
       }
     )
   }
+
 })
 app.use(router)
 app.mount('#app')
-
-if(DEBUG){
+if (DEBUG) {
   console.log('正在调试');
 }

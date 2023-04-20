@@ -58,3 +58,4 @@ export const routes: RouteRecordRaw[] = [
     path: '/notify', component: ComingSoon
   }
 ]
+
