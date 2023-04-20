@@ -115,7 +115,6 @@ export const itemCreate = defineComponent({
 
               <Tabs v-model:selected={formData.kind} class={s.tabs}>
                 <Tab value="expenses" name='支出' >
-                  {JSON.stringify(formData)}
                   <div class="animate__animated animate__fadeInLeft animate__faster">
                     <div class={s.tags_wrapper} onTouchmove={onTouchMove}>
                       <RouterLink to={'/tags/create?kind=expenses'} class={s.tag}>
