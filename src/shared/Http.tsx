@@ -75,7 +75,7 @@ function isDev(){
     && location.hostname !== '192.168.3.57') { return false }
   return true
 }
-export const http = new Http(isDev()? '/api/v1' :'https://mangosteen.caokejian.club/api/v1')
+export const http = new Http(isDev()? '/api/v1' :'http://8.130.24.249:3000/api/v1')
 
 http.instance.interceptors.request.use(config => {
   const jwt = localStorage.getItem('jwt')
