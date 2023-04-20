@@ -23,7 +23,7 @@ export const BallChart = defineComponent({
   props: {
     data: {
       type: Number,
-      default: 0.5
+      default: 0
     }
   },
   setup: (props, context) => {
@@ -84,12 +84,13 @@ export const BallChart = defineComponent({
 
     }
     onMounted(async () => {
-      console.log(props.data);
       if (refDiv3.value === undefined) { return }
       chart = echarts.init(refDiv3.value)
       getData()
     })
     watch(() => props.data, () => {
+      console.log(1);
+
       getData()
     })
     return () => (<>

@@ -96,12 +96,13 @@ export const Charts = defineComponent({
     })
     const rate = ref<number>()
     const fetchRate = async () => {
+      rate.value = 0
       const response = await http.get<{ groups: Data2; summary: number }>(
         '/items/summary',
         {
           happen_after: props.startDate,
           happen_before: props.endDate,
-          kind: kind.value,
+          kind: 'expenses',
           group_by: 'tag_id'
         },
         {
@@ -114,21 +115,15 @@ export const Charts = defineComponent({
         {
           happen_after: props.startDate,
           happen_before: props.endDate,
-          kind: kind.value,
+          kind: 'income',
           group_by: 'tag_id'
         },
         {
           _mock: 'itemSummary'
         }
       )
-      const totalAmount2 = response.data.groups.reduce((acc, cur) => acc + cur.amount, 0);
-      console.log(totalAmount, totalAmount2);
-
-      if (kind.value == 'income') {
-        rate.value = 0.7
-      } else {
-        rate.value = 0.5
-      }
+      const totalAmount2 = response2.data.groups.reduce((acc, cur) => acc + cur.amount, 0);
+      rate.value = totalAmount / totalAmount2
     }
     onMounted(fetchRate)
     watch(() => kind.value, () => {
