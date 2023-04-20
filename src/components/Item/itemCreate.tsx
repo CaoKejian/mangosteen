@@ -11,6 +11,7 @@ import { RouterLink, useRouter } from 'vue-router';
 import { Dialog } from 'vant';
 import { BackIcon } from '../../shared/BackIcon';
 import { hasError, validate } from '../../shared/validate';
+import { AxiosError } from 'axios';
 export const itemCreate = defineComponent({
   props: {
     name: {
@@ -48,13 +49,17 @@ export const itemCreate = defineComponent({
       formData.tag_ids = [tag.id]
     }
     const router = useRouter()
+    const onError = (error: AxiosError<ResourceError>) => {
+      if (error.response?.status === 422) {
+        Dialog.alert({
+          title: '出错',
+          message: Object.values(error.response.data.errors).join('\n')
+        })
+      }
+      throw error
+    }
     const onSubmit = async () => {
-      Object.assign(errors, {
-        kind: [],
-        tag_ids: [],
-        amount: [],
-        happen_at: []
-      })
+      Object.assign(errors, { kind: [], tag_ids: [], amount: [], happen_at: [] })
       Object.assign(errors, validate(formData, [
         { key: 'kind', type: 'required', message: '类型必填' },
         { key: 'tag_ids', type: 'required', message: '标签必填' },
@@ -69,28 +74,17 @@ export const itemCreate = defineComponent({
         })
         return
       }
-      await http.post<Resource<Item>>('/items', formData,
-        { _mock: 'itemCreate', _autoLoading: true })
-        .catch(error => {
-          if (error.response.status === 422) {
-            Dialog.alert({
-              title: "出错",
-              message: Object.values(error.response.data.errors).join('\n')
-            })
-          }
-          throw error
-        })
+      const re = await http.post<Resource<Item>>('/items', formData, { _mock: 'itemCreate', _autoLoading: true }).catch(onError)
       Dialog.alert({
         title: "提示",
         message: '保存成功'
       })
-      router.push("/items")
+      router.push('/items')
     }
     //* 长按编辑功能
     const timer = ref<number>()
     const currentTag = ref<HTMLDivElement>()
     const onLongPress = (id: number) => {
-      console.log(id);
       router.push(`/tags/${id}/edit?kind=${formData.kind}`)
     }
     const onTouchStart = (e: TouchEvent, tag: Tag) => {
@@ -121,6 +115,7 @@ export const itemCreate = defineComponent({
 
               <Tabs v-model:selected={formData.kind} class={s.tabs}>
                 <Tab value="expenses" name='支出' >
+                  {JSON.stringify(formData)}
                   <div class="animate__animated animate__fadeInLeft animate__faster">
                     <div class={s.tags_wrapper} onTouchmove={onTouchMove}>
                       <RouterLink to={'/tags/create?kind=expenses'} class={s.tag}>
