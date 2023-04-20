@@ -82,7 +82,7 @@ export const Charts = defineComponent({
         }
       )
       data2.value = response.data.groups
-     
+
     }
     onMounted(fetchData2)
     watch(() => kind.value, fetchData2)
@@ -108,7 +108,7 @@ export const Charts = defineComponent({
           _mock: 'itemSummary'
         }
       )
-      const totalAmount =  response.data.groups.reduce((acc, cur) => acc + cur.amount, 0);
+      const totalAmount = response.data.groups.reduce((acc, cur) => acc + cur.amount, 0);
       const response2 = await http.get<{ groups: Data2; summary: number }>(
         '/items/summary',
         {
@@ -121,7 +121,8 @@ export const Charts = defineComponent({
           _mock: 'itemSummary'
         }
       )
-      const totalAmount2 =  response.data.groups.reduce((acc, cur) => acc + cur.amount, 0);
+      const totalAmount2 = response.data.groups.reduce((acc, cur) => acc + cur.amount, 0);
+      console.log(totalAmount, totalAmount2);
 
       if (kind.value == 'income') {
         rate.value = 0.7
