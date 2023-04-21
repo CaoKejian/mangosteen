@@ -89,7 +89,6 @@ export const BallChart = defineComponent({
       getData()
     })
     watch(() => props.data, () => {
-      console.log(1);
 
       getData()
     })

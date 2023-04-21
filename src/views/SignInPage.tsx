@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { defineComponent, PropType, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useBool } from '../hooks/useBool';
@@ -10,6 +9,8 @@ import { http } from '../shared/Http';
 import { hasError, Rules, validate } from '../shared/validate';
 import { useMeStore } from '../stores/useMeStore';
 import s from './SignInPage.module.scss';
+import 'animate.css';
+
 export const SignInPage = defineComponent({
   props: {
     name: {
@@ -19,8 +20,8 @@ export const SignInPage = defineComponent({
   setup: (props, context) => {
     const meSotre = useMeStore()
     const formData = reactive({
-      email: '',
-      code: ''
+      email: '1849201815@qq.com',
+      code: '123456'
     })
     const errors = reactive({
       email: [],
@@ -74,6 +75,10 @@ export const SignInPage = defineComponent({
       //成功
       refValidationCode.value.startCount()
     }
+    const showMessage = ref(true)
+    const closeMessage = () => {
+      showMessage.value = false
+    }
     return () => (
       <MainLayout>{
         {
@@ -94,14 +99,22 @@ export const SignInPage = defineComponent({
                   onClick={onClickSendValidationCode}
                   v-model={formData.code} error={errors.code?.[0] ?? '　'}
                 ></FormItem>
+                {showMessage.value ? <div class="animate__animated animate__fadeIn animate__faster">
+                  <span class={s.span}>如果面试官，不太方便透露自己的邮箱或者时间紧迫，我给您准备了测试用户</span><br />
+                  <span class={s.span}>邮箱：1849201815@qq.com</span><br />
+                  <span class={s.span}>验证码：123456</span>
+                </div> : <div></div>
+                }
+                <Button class={s.button} onClick={() => showMessage.value = !showMessage.value}>{showMessage.value ? '关闭提示' : '打开提示'}</Button>
                 <FormItem style={{ paddingTop: '28px' }}>
                   <Button type='submit'>登录</Button>
                 </FormItem>
+
               </Form>
-            </div>
+            </div >
           )
         }
-      }</MainLayout>
+      }</MainLayout >
     )
   }
 })
