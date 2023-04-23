@@ -74,7 +74,7 @@ export const itemCreate = defineComponent({
         })
         return
       }
-      const re = await http.post<Resource<Item>>('/items', formData, { _mock: 'itemCreate', _autoLoading: true }).catch(onError)
+      await http.post<Resource<Item>>('/items', formData, { _mock: 'itemCreate', _autoLoading: true }).catch(onError)
       Dialog.alert({
         title: "提示",
         message: '保存成功'
