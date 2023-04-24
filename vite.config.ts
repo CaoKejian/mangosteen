@@ -5,12 +5,12 @@ import { svgstore } from './src/vite_plugins/svgstore'
 
 
 // https://vitejs.dev/config/
-export default defineConfig(({command}) => {
+export default defineConfig(({ command }) => {
   return {
-    define:command === 'build'?{
-      DEBUG:false
-    }:{
-      DEBUG:true
+    define: command === 'build' ? {
+      DEBUG: false
+    } : {
+      DEBUG: true
     },
     build: {
       rollupOptions: {
@@ -43,7 +43,7 @@ export default defineConfig(({command}) => {
     server: {
       proxy: {
         '/api/v1': {
-          target: 'http://8.130.24.249:3000/'
+          target: 'http://8.130.24.249:3000/',
         }
       }
     }
