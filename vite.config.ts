@@ -19,6 +19,9 @@ export default defineConfig(({ command }) => {
             if (id.includes('echarts')) {
               return 'echarts';
             }
+            if (id.includes('echarts-liquidfill')){
+              return 'echarts-liquidfill';
+            }
             if (id.includes('mock') || id.includes('faker')) {
               return 'mock';
             }
