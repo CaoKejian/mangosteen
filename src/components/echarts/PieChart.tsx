@@ -1,7 +1,6 @@
 import * as echarts from 'echarts';
 import { defineComponent, onMounted, PropType, ref, watch } from 'vue';
 import s from './Echarts.module.scss'
-import 'echarts-liquidfill';
 import { getMoney } from '../../shared/Money';
 
 const echartsOption = {

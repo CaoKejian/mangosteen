@@ -1,7 +1,6 @@
 import { computed, defineComponent, onMounted, PropType, reactive, ref, watch } from 'vue';
 import { FormItem } from '../../shared/Form';
 import s from './Charts.module.scss';
-import 'echarts-liquidfill';
 import { http } from '../../shared/Http';
 import { LineChart } from '../echarts/LineChart';
 import { Time } from '../../shared/time';
