@@ -5,7 +5,7 @@ import { http } from '../../shared/Http';
 import { LineChart } from '../echarts/LineChart';
 import { Time } from '../../shared/time';
 import { PieChart } from '../echarts/PieChart';
-import { BallChart } from '../echarts/BallChart';
+// import { BallChart } from '../echarts/BallChart';
 import { Bars } from '../echarts/Bars';
 
 type Data1Item = { happen_at: string, amount: number }
@@ -139,7 +139,7 @@ export const Charts = defineComponent({
         ></FormItem>
         <LineChart data={betterData1.value} />
         <PieChart data={betterData2.value} />
-        <BallChart data={rate.value} />
+        {/* <BallChart data={rate.value} /> */}
         <Bars data={betterData3.value} />
       </div>
     )
